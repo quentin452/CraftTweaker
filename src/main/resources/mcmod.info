@@ -1,9 +1,9 @@
 [
 {
-  "modid": "MineTweaker3",
-  "name": "MineTweaker 3",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
+  "modid": "${modId}",
+  "name": "${modName}",
+  "version": "${modVersion}",
+  "mcversion": "${minecraftVersion}",
   "description": "Customize your minecraft experience!",
   "credits": "Created By Stan Hebben",
   "logoFile": "assets/minetweaker/logo.png",
