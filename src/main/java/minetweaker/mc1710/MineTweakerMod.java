@@ -50,7 +50,7 @@ import java.util.List;
  * 
  * @author Stan Hebben
  */
-@Mod(modid = MineTweakerMod.MODID, version = "3.1.0")
+@Mod(modid = MineTweakerMod.MODID, name = "MineTweaker 3", version = "GRADLETOKEN_VERSION")
 public class MineTweakerMod {
 	public static final String MODID = "MineTweaker3";
 	public static final String MCVERSION = "1.7.10";

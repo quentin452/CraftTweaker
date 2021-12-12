@@ -1,0 +1,17 @@
+sourceSets.main {
+    java.srcDir("ZenScript/src/main/java")
+}
+
+task initZenScript(type: Exec) {
+    description = "Updates (and inits) git submodules"
+    group = "Build Setup"
+    commandLine("git", "submodule", "update", "--init", "--recursive", "--remote")
+
+    // Checkout a specific commit. Otherwise the build will fail!
+    commandLine("git", "--git-dir=\"ZenScript/.git\"", "checkout", "e7144825")
+}
+
+tasks.setupCIWorkspace.dependsOn initZenScript
+tasks.setupDevWorkspace.dependsOn initZenScript
+tasks.setupDecompWorkspace.dependsOn initZenScript
+tasks.compileJava.dependsOn initZenScript
