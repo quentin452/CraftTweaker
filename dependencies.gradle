@@ -1,7 +1,7 @@
 // Add your dependencies here
 
 dependencies {
-    compile("com.github.GTNewHorizons:ZenScript:CraftTweaker-SNAPSHOT")
+    compile("com.github.GTNewHorizons:ZenScript:master-SNAPSHOT")
     compile("com.github.GTNewHorizons:NotEnoughItems:master-SNAPSHOT:dev")
 
     compile("net.industrial-craft:industrialcraft-2:2.2.828-experimental:dev")
