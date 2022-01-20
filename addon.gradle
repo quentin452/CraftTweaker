@@ -7,8 +7,8 @@ task initZenScript(type: Exec) {
     group = "Build Setup"
     commandLine("git", "submodule", "update", "--init", "--recursive", "--remote")
 
-    // Checkout a specific commit. Otherwise the build will fail!
-    commandLine("git", "--git-dir=\"ZenScript/.git\"", "checkout", "e7144825")
+//    // Checkout a specific commit. Otherwise the build will fail!
+//    commandLine("git", "--git-dir=\"ZenScript/.git\"", "checkout", "e7144825")
 }
 
 tasks.setupCIWorkspace.dependsOn initZenScript
