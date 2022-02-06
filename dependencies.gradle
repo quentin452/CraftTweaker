@@ -1,7 +1,21 @@
 // Add your dependencies here
 
 dependencies {
-    compile("com.github.GTNewHorizons:NotEnoughItems:2.1.22-GTNH:dev")
+    compile("com.github.GTNewHorizons:NotEnoughItems:2.2.5-GTNH:dev")
 
     compile("net.industrial-craft:industrialcraft-2:2.2.828-experimental:dev")
+
+    compile group: 'org.ow2.asm', name: 'asm-debug-all', version: '5.2'
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
+
+    testCompile(
+            'org.junit.jupiter:junit-jupiter-api:5.0.1'
+    )
+
+    testRuntime(
+            'org.junit.jupiter:junit-jupiter-engine:5.0.1',
+            'org.junit.vintage:junit-vintage-engine:4.12.1',
+            'org.junit.platform:junit-platform-launcher:1.0.1',
+            'org.junit.platform:junit-platform-runner:1.0.1'
+    )
 }
