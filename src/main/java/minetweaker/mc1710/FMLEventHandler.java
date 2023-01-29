@@ -14,14 +14,30 @@ import minetweaker.mc1710.recipes.MCRecipeManager;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 
+import org.lwjgl.input.Keyboard;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 
 /**
  *
  * @author Stan
  */
 public class FMLEventHandler {
+
+    private static boolean shiftDown = false;
+
+    public static boolean isShiftDown() {
+        return shiftDown;
+    }
+
+    @SubscribeEvent
+    public void onClientTick(TickEvent.ClientTickEvent ev) {
+        if (ev.phase == TickEvent.Phase.START) {
+            shiftDown = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
+        }
+    }
 
     @SubscribeEvent
     public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent ev) {
