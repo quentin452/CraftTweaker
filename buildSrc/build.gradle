@@ -1,9 +1,21 @@
-import javax.tools.ToolProvider
+import java.io.File
 
-apply plugin: 'java'
+plugins {
+    id("java")
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+        vendor.set(JvmVendorSpec.ADOPTIUM)
+    }
+}
 
 //Make sure JAVA_HOME is set as an environment variable
-ext.javaToolsJar = ((URLClassLoader) ToolProvider.getSystemToolClassLoader()).getURLs()
+ext.javaToolsJar = files(
+    javaToolchains.compilerFor(java.toolchain).map { tc ->
+        new File(tc.executablePath.asFile.parentFile.parentFile, "lib/tools.jar")
+    })
 
 
 repositories {
@@ -11,7 +23,7 @@ repositories {
 }
 
 dependencies {
-	compile gradleApi()
-	compile 'org.ow2.asm:asm-debug-all:5.0.3'
-	compile files(javaToolsJar)
+	gradleApi()
+	implementation 'org.ow2.asm:asm-debug-all:5.0.3'
+	implementation files(javaToolsJar)
 }

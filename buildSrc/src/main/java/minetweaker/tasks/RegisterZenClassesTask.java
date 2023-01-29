@@ -11,8 +11,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.gradle.api.DefaultTask;
+import org.gradle.api.file.DirectoryProperty;
+import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputDirectory;
+import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
 import org.objectweb.asm.AnnotationVisitor;
@@ -28,61 +31,60 @@ import org.objectweb.asm.Type;
  * @ZenExpansion annotation and generates a class with a single static
  * getClasses(List<Class>) method.  Overrides existing files if they exist.
  * (handy for having a stub in the original source)
- * 
+ *
  * @author Stan Hebben
  */
-public class RegisterZenClassesTask extends DefaultTask {
+public abstract class RegisterZenClassesTask extends DefaultTask {
 	@InputDirectory
-	public File inputDir;
-	
+	public abstract DirectoryProperty getInputDir();
+
 	@OutputDirectory
-	public File outputDir = null;
-
-	public void setInputDir(File inputDir) {
-		this.inputDir = inputDir;
-	}
-
-	public void setOutputDir(File inputDir) {
-		this.outputDir = inputDir;
-	}
+    @Optional
+	public abstract DirectoryProperty getOutputDir();
 
 	@Input
-	public String className;
-	
+	public abstract Property<String> getClassName();
+
+    public RegisterZenClassesTask() {
+        getOutputDir().convention(getInputDir());
+    }
+
 	@TaskAction
 	public void doTask() {
-		if (outputDir == null) outputDir = inputDir;
-		
-		List<String> classNames = new ArrayList<String>();
-		List<OnRegisterMethod> onRegisterMethods = new ArrayList<OnRegisterMethod>();
+        final File inputDir = getInputDir().get().getAsFile();
+        final File outputDir = getOutputDir().get().getAsFile();
+        final String className = getClassName().get();
+
+		List<String> classNames = new ArrayList<>();
+		List<OnRegisterMethod> onRegisterMethods = new ArrayList<>();
 		iterate(inputDir, null, classNames, onRegisterMethods);
-		
+
 		String fullClassName = className.replace('.', '/');
-		
+
 		// generate class
 		ClassWriter output = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 		output.visit(Opcodes.V1_6, Opcodes.ACC_PUBLIC, fullClassName, null, "java/lang/Object", null);
-		
+
 		MethodVisitor method = output.visitMethod(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC, "getClasses", "(Ljava/util/List;)V", null, null);
 		method.visitCode();
-		
+
 		for (String clsName : classNames) {
 			method.visitVarInsn(Opcodes.ALOAD, 0);
 			method.visitLdcInsn(Type.getType("L" + clsName + ";"));
-			method.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "add", "(Ljava/lang/Object;)Z");
+			method.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "add", "(Ljava/lang/Object;)Z", true);
 		}
-		
+
 		for (OnRegisterMethod onRegisterMethod : onRegisterMethods) {
-			method.visitMethodInsn(Opcodes.INVOKESTATIC, onRegisterMethod.className, onRegisterMethod.methodName, "()V");
+			method.visitMethodInsn(Opcodes.INVOKESTATIC, onRegisterMethod.className, onRegisterMethod.methodName, "()V", false);
 		}
-		
+
 		method.visitInsn(Opcodes.RETURN);
-		
+
 		method.visitMaxs(0, 0);
 		method.visitEnd();
-		
+
 		output.visitEnd();
-		
+
 		// write output file
 		File outputFile = new File(outputDir, fullClassName + ".class");
 		File outputFileDir = outputFile.getParentFile();
@@ -92,16 +94,14 @@ public class RegisterZenClassesTask extends DefaultTask {
 		if (outputFile.exists()) {
 			outputFile.delete();
 		}
-		
-		try {
-			FileOutputStream outputStream = new FileOutputStream(outputFile);
+
+		try(FileOutputStream outputStream = new FileOutputStream(outputFile)) {
 			outputStream.write(output.toByteArray());
-			outputStream.close();
 		} catch (IOException ex) {
 			Logger.getLogger(RegisterZenClassesTask.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
-	
+
 	private void iterate(File dir, String pkg, List<String> classNames, List<OnRegisterMethod> onRegisterMethods) {
 		for (File f : dir.listFiles()) {
 			if (f.isDirectory()) {
@@ -117,16 +117,15 @@ public class RegisterZenClassesTask extends DefaultTask {
 			}
 		}
 	}
-	
+
 	private void processJavaClass(File cls, String pkg, List<String> classNames, List<OnRegisterMethod> onRegisterMethods) {
-		try {
-			InputStream input = new BufferedInputStream(new FileInputStream(cls));
-			ClassReader reader = new ClassReader(input);
-			
+		try(InputStream input = new BufferedInputStream(new FileInputStream(cls))) {
+            ClassReader reader = new ClassReader(input);
+
 			AnnotationDetector detector = new AnnotationDetector();
 			reader.accept(detector, ClassReader.SKIP_CODE);
 			input.close();
-			
+
 			if (detector.isAnnotated) {
 				classNames.add(pkg + "/" + cls.getName().substring(0, cls.getName().length() - 6));
 			}
@@ -136,18 +135,18 @@ public class RegisterZenClassesTask extends DefaultTask {
 						onRegisterMethod.name));
 			}
 		} catch (IOException ex) {
-			
+
 		}
 	}
-	
+
 	private static class AnnotationDetector extends ClassVisitor {
 		private boolean isAnnotated = false;
-		private List<MethodAnnotationDetector> onRegister = new ArrayList<MethodAnnotationDetector>();
-		
+		private List<MethodAnnotationDetector> onRegister = new ArrayList<>();
+
 		public AnnotationDetector() {
-			super(Opcodes.ASM4);
+			super(Opcodes.ASM5);
 		}
-		
+
 		@Override
 		public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
 			if (desc.equals("Lstanhebben/zenscript/annotations/ZenExpansion;")) {
@@ -157,29 +156,29 @@ public class RegisterZenClassesTask extends DefaultTask {
 			} else if (desc.equals("Lminetweaker/annotations/BracketHandler;")) {
 				isAnnotated = true;
 			}
-			
+
 			return super.visitAnnotation(desc, visible);
 		}
-		
+
 		@Override
 		public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
 			return new MethodAnnotationDetector(this, name, desc);
 		}
 	}
-	
+
 	private static class MethodAnnotationDetector extends MethodVisitor {
 		private final AnnotationDetector detector;
 		private final String name;
 		private final String desc;
-		
+
 		public MethodAnnotationDetector(AnnotationDetector detector, String name, String desc) {
 			super(Opcodes.ASM4);
-			
+
 			this.detector = detector;
 			this.name = name;
 			this.desc = desc;
 		}
-		
+
 		@Override
 		public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
 			if (desc.equals("Lminetweaker/annotations/OnRegister;")) {
@@ -189,15 +188,15 @@ public class RegisterZenClassesTask extends DefaultTask {
 					throw new RuntimeException("OnRegister annotation must be used on a static method without arguments or return value");
 				}
 			}
-			
+
 			return super.visitAnnotation(desc, visible);
 		}
 	}
-	
+
 	private static class OnRegisterMethod {
 		private final String className;
 		private final String methodName;
-		
+
 		public OnRegisterMethod(String className, String methodName) {
 			this.className = className;
 			this.methodName = methodName;
