@@ -46,10 +46,10 @@ import cpw.mods.fml.relauncher.Side;
 
 /**
  * Main mod class. Performs some general logic, initialization of the API and FML event handling.
- * 
+ *
  * @author Stan Hebben
  */
-@Mod(modid = MineTweakerMod.MODID, version = "3.1.0")
+@Mod(modid = MineTweakerMod.MODID, version = Tags.MOD_VERSION)
 public class MineTweakerMod {
 
     public static final String MODID = "MineTweaker3";
