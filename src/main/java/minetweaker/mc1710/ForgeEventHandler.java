@@ -26,8 +26,6 @@ import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
-import org.lwjgl.input.Keyboard;
-
 import stanhebben.zenscript.value.*;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -64,7 +62,7 @@ public class ForgeEventHandler {
                 ev.toolTip.add(((IMCFormattedString) tooltip).getTooltipString());
             }
 
-            if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
+            if (FMLEventHandler.isShiftDown()) {
                 for (IFormattedText tooltip : IngredientTooltips.getShiftTooltips(itemStack)) {
                     ev.toolTip.add(((IMCFormattedString) tooltip).getTooltipString());
                 }
