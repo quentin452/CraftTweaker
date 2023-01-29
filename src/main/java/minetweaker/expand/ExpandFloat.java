@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this license header, choose License Headers in Project Properties. To change this template file, choose
+ * Tools | Templates and open the template in the editor.
  */
 
 package minetweaker.expand;
@@ -17,8 +16,9 @@ import stanhebben.zenscript.annotations.ZenExpansion;
  */
 @ZenExpansion("float")
 public class ExpandFloat {
-	@ZenCaster
-	public static IData asData(float value) {
-		return new DataFloat(value);
-	}
+
+    @ZenCaster
+    public static IData asData(float value) {
+        return new DataFloat(value);
+    }
 }

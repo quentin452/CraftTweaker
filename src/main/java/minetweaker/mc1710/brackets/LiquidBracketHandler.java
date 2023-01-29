@@ -6,12 +6,14 @@ import java.util.Map;
 
 import minetweaker.IBracketHandler;
 import minetweaker.annotations.BracketHandler;
-import minetweaker.mc1710.liquid.MCLiquidStack;
 import minetweaker.api.liquid.ILiquidStack;
+import minetweaker.mc1710.liquid.MCLiquidStack;
 import minetweaker.runtime.GlobalRegistry;
+
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+
 import stanhebben.zenscript.compiler.IEnvironmentGlobal;
 import stanhebben.zenscript.expression.ExpressionCallStatic;
 import stanhebben.zenscript.expression.ExpressionString;
@@ -28,6 +30,7 @@ import stanhebben.zenscript.util.ZenPosition;
  */
 @BracketHandler
 public class LiquidBracketHandler implements IBracketHandler {
+
     private static final Map<String, Fluid> fluidNames = new HashMap<String, Fluid>();
 
     @SuppressWarnings("unchecked")
@@ -74,6 +77,7 @@ public class LiquidBracketHandler implements IBracketHandler {
     }
 
     private class LiquidReferenceSymbol implements IZenSymbol {
+
         private final IEnvironmentGlobal environment;
         private final String name;
 
@@ -84,7 +88,8 @@ public class LiquidBracketHandler implements IBracketHandler {
 
         @Override
         public IPartialExpression instance(ZenPosition position) {
-            IJavaMethod method = JavaMethod.get(GlobalRegistry.getTypeRegistry(), LiquidBracketHandler.class, "getLiquid", String.class);
+            IJavaMethod method = JavaMethod
+                    .get(GlobalRegistry.getTypeRegistry(), LiquidBracketHandler.class, "getLiquid", String.class);
 
             return new ExpressionCallStatic(position, environment, method, new ExpressionString(position, name));
         }

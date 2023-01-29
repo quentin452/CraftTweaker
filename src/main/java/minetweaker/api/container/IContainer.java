@@ -20,8 +20,7 @@ public interface IContainer extends Iterable<IItemStack> {
     int getContainerSize();
 
     /**
-     * Gets the item stack at the given position. Returns null if there is no
-     * stack at that position.
+     * Gets the item stack at the given position. Returns null if there is no stack at that position.
      *
      * @param i stack position
      *

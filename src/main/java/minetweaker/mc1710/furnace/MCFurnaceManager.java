@@ -1,12 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this license header, choose License Headers in Project Properties. To change this template file, choose
+ * Tools | Templates and open the template in the editor.
  */
 
 package minetweaker.mc1710.furnace;
 
-import cpw.mods.fml.common.registry.GameRegistry;
+import static minetweaker.api.minecraft.MineTweakerMC.getItemStack;
+import static minetweaker.api.minecraft.MineTweakerMC.getItemStacks;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.IIngredient;
@@ -15,29 +21,24 @@ import minetweaker.api.recipes.FurnaceRecipe;
 import minetweaker.api.recipes.IFurnaceManager;
 import minetweaker.api.recipes.IFurnaceRecipe;
 import minetweaker.mc1710.item.MCItemStack;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import static minetweaker.api.minecraft.MineTweakerMC.getItemStack;
-import static minetweaker.api.minecraft.MineTweakerMC.getItemStacks;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
  * @author Stan
  */
 public class MCFurnaceManager implements IFurnaceManager {
+
     public MCFurnaceManager() {
 
     }
 
     @Override
     public void remove(IIngredient output, IIngredient input) {
-        if (output == null)
-            throw new IllegalArgumentException("output cannot be null");
+        if (output == null) throw new IllegalArgumentException("output cannot be null");
 
         Map<ItemStack, ItemStack> smeltingList = FurnaceRecipes.smelting().getSmeltingList();
 
@@ -83,8 +84,13 @@ public class MCFurnaceManager implements IFurnaceManager {
     @Override
     public List<IFurnaceRecipe> getAll() {
         List<IFurnaceRecipe> retList = new ArrayList<IFurnaceRecipe>();
-        for (Map.Entry<ItemStack, ItemStack> ent : (Set<Map.Entry<ItemStack, ItemStack>>) FurnaceRecipes.smelting().getSmeltingList().entrySet()) {
-            retList.add(new FurnaceRecipe(new MCItemStack(ent.getKey()), new MCItemStack(ent.getValue()), FurnaceRecipes.smelting().func_151398_b(ent.getValue())));
+        for (Map.Entry<ItemStack, ItemStack> ent : (Set<Map.Entry<ItemStack, ItemStack>>) FurnaceRecipes.smelting()
+                .getSmeltingList().entrySet()) {
+            retList.add(
+                    new FurnaceRecipe(
+                            new MCItemStack(ent.getKey()),
+                            new MCItemStack(ent.getValue()),
+                            FurnaceRecipes.smelting().func_151398_b(ent.getValue())));
         }
         return retList;
     }
@@ -94,6 +100,7 @@ public class MCFurnaceManager implements IFurnaceManager {
     // ######################
 
     private static class RemoveAction implements IUndoableAction {
+
         private final List<ItemStack> items;
         private final List<ItemStack> values;
 
@@ -138,6 +145,7 @@ public class MCFurnaceManager implements IFurnaceManager {
     }
 
     private static class AddRecipeAction implements IUndoableAction {
+
         private final IIngredient ingredient;
         private final ItemStack[] input;
         private final ItemStack output;
@@ -186,6 +194,7 @@ public class MCFurnaceManager implements IFurnaceManager {
     }
 
     private static class SetFuelAction implements IUndoableAction {
+
         private final SetFuelPattern pattern;
 
         public SetFuelAction(SetFuelPattern pattern) {

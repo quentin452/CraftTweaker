@@ -1,10 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this license header, choose License Headers in Project Properties. To change this template file, choose
+ * Tools | Templates and open the template in the editor.
  */
 
 package minetweaker.mc1710.server;
+
+import java.util.Arrays;
+import java.util.List;
 
 import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
@@ -16,6 +18,7 @@ import minetweaker.api.server.ICommandTabCompletion;
 import minetweaker.api.server.ICommandValidator;
 import minetweaker.mc1710.player.CommandBlockPlayer;
 import minetweaker.mc1710.player.RconPlayer;
+
 import net.minecraft.command.CommandHandler;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
@@ -26,13 +29,11 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.server.management.UserListOps;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * @author Stan
  */
 public class MCServer extends AbstractServer {
+
     private final MinecraftServer server;
 
     public MCServer(MinecraftServer server) {
@@ -40,15 +41,15 @@ public class MCServer extends AbstractServer {
     }
 
     @Override
-    public void addCommand(String name, String usage, String[] aliases, ICommandFunction function, ICommandValidator validator, ICommandTabCompletion completion) {
+    public void addCommand(String name, String usage, String[] aliases, ICommandFunction function,
+            ICommandValidator validator, ICommandTabCompletion completion) {
         ICommand command = new MCCommand(name, usage, aliases, function, validator, completion);
         MineTweakerAPI.apply(new AddCommandAction(command));
     }
 
     @Override
     public boolean isOp(IPlayer player) {
-        if (player == ServerPlayer.INSTANCE)
-            return true;
+        if (player == ServerPlayer.INSTANCE) return true;
 
         UserListOps ops = MinecraftServer.getServer().getConfigurationManager().func_152603_m();
         if (server.isDedicatedServer() && ops != null) {
@@ -60,7 +61,7 @@ public class MCServer extends AbstractServer {
 
     @Override
     public boolean isCommandAdded(String name) {
-        return  MinecraftServer.getServer().getCommandManager().getCommands().containsKey(name);
+        return MinecraftServer.getServer().getCommandManager().getCommands().containsKey(name);
     }
 
     private static IPlayer getPlayer(ICommandSender commandSender) {
@@ -70,9 +71,9 @@ public class MCServer extends AbstractServer {
             return ServerPlayer.INSTANCE;
         } else if (commandSender instanceof RConConsoleSource) {
             return new RconPlayer(commandSender);
-        } else if(commandSender instanceof CommandBlockLogic){
+        } else if (commandSender instanceof CommandBlockLogic) {
             return new CommandBlockPlayer(commandSender);
-        }else {
+        } else {
             System.out.println("Unsupported command sender: " + commandSender);
             System.out.println("player name: " + commandSender.getCommandSenderName());
             return null;
@@ -80,6 +81,7 @@ public class MCServer extends AbstractServer {
     }
 
     private class MCCommand implements ICommand {
+
         private final String name;
         private final String usage;
         private final List<String> aliases;
@@ -87,7 +89,8 @@ public class MCServer extends AbstractServer {
         private final ICommandValidator validator;
         private final ICommandTabCompletion completion;
 
-        public MCCommand(String name, String usage, String[] aliases, ICommandFunction function, ICommandValidator validator, ICommandTabCompletion completion) {
+        public MCCommand(String name, String usage, String[] aliases, ICommandFunction function,
+                ICommandValidator validator, ICommandTabCompletion completion) {
             this.name = name;
             this.usage = usage;
             this.aliases = Arrays.asList(aliases);
@@ -146,16 +149,17 @@ public class MCServer extends AbstractServer {
     }
 
     private class AddCommandAction implements IUndoableAction {
+
         private final ICommand command;
 
         public AddCommandAction(ICommand command) {
             this.command = command;
         }
+
         @Override
         public void apply() {
             CommandHandler ch = (CommandHandler) MinecraftServer.getServer().getCommandManager();
-            if (!ch.getCommands().containsValue(command))
-                ch.registerCommand(command);
+            if (!ch.getCommands().containsValue(command)) ch.registerCommand(command);
         }
 
         @Override
@@ -171,8 +175,7 @@ public class MCServer extends AbstractServer {
         @Override
         public String describe() {
             CommandHandler ch = (CommandHandler) MinecraftServer.getServer().getCommandManager();
-            if (!ch.getCommands().containsValue(command))
-                return "Adding command " + command.getCommandName();
+            if (!ch.getCommands().containsValue(command)) return "Adding command " + command.getCommandName();
             return "";
         }
 

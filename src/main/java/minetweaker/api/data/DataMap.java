@@ -24,10 +24,10 @@ public class DataMap implements IData {
         Map<String, IData> result = new HashMap<>();
         Map<String, IData> otherMap = other.asMap();
 
-        for(Map.Entry<String, IData> entry : data.entrySet()) {
+        for (Map.Entry<String, IData> entry : data.entrySet()) {
             result.put(entry.getKey(), entry.getValue());
         }
-        for(Map.Entry<String, IData> entry : otherMap.entrySet()) {
+        for (Map.Entry<String, IData> entry : otherMap.entrySet()) {
             result.put(entry.getKey(), entry.getValue());
         }
 
@@ -39,10 +39,10 @@ public class DataMap implements IData {
         Map<String, IData> result = new HashMap<>();
         Map<String, IData> otherMap = other.asMap();
 
-        for(Map.Entry<String, IData> entry : data.entrySet()) {
+        for (Map.Entry<String, IData> entry : data.entrySet()) {
             result.put(entry.getKey(), entry.getValue());
         }
-        for(String key : otherMap.keySet()) {
+        for (String key : otherMap.keySet()) {
             result.remove(key);
         }
 
@@ -129,14 +129,14 @@ public class DataMap implements IData {
         StringBuilder result = new StringBuilder();
         result.append('{');
         boolean first = true;
-        for(Map.Entry<String, IData> entry : data.entrySet()) {
-            if(first) {
+        for (Map.Entry<String, IData> entry : data.entrySet()) {
+            if (first) {
                 first = false;
             } else {
                 result.append(", ");
             }
 
-            if(isValidIdentifier(entry.getKey())) {
+            if (isValidIdentifier(entry.getKey())) {
                 result.append(entry.getKey());
             } else {
                 result.append("\"").append(entry.getKey()).append("\"");
@@ -156,7 +156,7 @@ public class DataMap implements IData {
 
     @Override
     public Map<String, IData> asMap() {
-        if(immutable) {
+        if (immutable) {
             return Collections.unmodifiableMap(data);
         } else {
             return data;
@@ -190,7 +190,7 @@ public class DataMap implements IData {
 
     @Override
     public void memberSet(String name, IData data) {
-        if(immutable) {
+        if (immutable) {
             throw new UnsupportedOperationException("this map is not modifiable");
         } else {
             this.data.put(name, data);
@@ -204,18 +204,17 @@ public class DataMap implements IData {
 
     @Override
     public boolean contains(IData data) {
-        if(data instanceof DataString) {
+        if (data instanceof DataString) {
             return this.data.containsKey(data.asString());
         }
 
         Map<String, IData> dataMap = data.asMap();
-        if(dataMap == null)
-            return false;
+        if (dataMap == null) return false;
 
-        for(Map.Entry<String, IData> dataEntry : dataMap.entrySet()) {
-            if(!this.data.containsKey(dataEntry.getKey())) {
+        for (Map.Entry<String, IData> dataEntry : dataMap.entrySet()) {
+            if (!this.data.containsKey(dataEntry.getKey())) {
                 return false;
-            } else if(!this.data.get(dataEntry.getKey()).contains(dataEntry.getValue())) {
+            } else if (!this.data.get(dataEntry.getKey()).contains(dataEntry.getValue())) {
                 return false;
             }
         }
@@ -230,17 +229,15 @@ public class DataMap implements IData {
 
     @Override
     public boolean equals(IData data) {
-        if(this == data)
-            return true;
+        if (this == data) return true;
 
         Map<String, IData> dataMap = data.asMap();
-        if(dataMap.size() != this.data.size())
-            return false;
+        if (dataMap.size() != this.data.size()) return false;
 
-        for(Map.Entry<String, IData> dataEntry : this.data.entrySet()) {
-            if(!dataMap.containsKey(dataEntry.getKey())) {
+        for (Map.Entry<String, IData> dataEntry : this.data.entrySet()) {
+            if (!dataMap.containsKey(dataEntry.getKey())) {
                 return false;
-            } else if(!dataMap.get(dataEntry.getKey()).equals(dataEntry.getValue())) {
+            } else if (!dataMap.get(dataEntry.getKey()).equals(dataEntry.getValue())) {
                 return false;
             }
         }
@@ -250,11 +247,11 @@ public class DataMap implements IData {
 
     @Override
     public IData immutable() {
-        if(immutable) {
+        if (immutable) {
             return this;
         } else {
             Map<String, IData> result = new HashMap<>();
-            for(Map.Entry<String, IData> entry : this.data.entrySet()) {
+            for (Map.Entry<String, IData> entry : this.data.entrySet()) {
                 result.put(entry.getKey(), entry.getValue().immutable());
             }
             return new DataMap(result, true);
@@ -263,14 +260,13 @@ public class DataMap implements IData {
 
     @Override
     public IData update(IData data) {
-        if(immutable)
-            data = data.immutable();
+        if (immutable) data = data.immutable();
 
         Map<String, IData> result = new HashMap<>();
-        for(Map.Entry<String, IData> entry : this.data.entrySet()) {
+        for (Map.Entry<String, IData> entry : this.data.entrySet()) {
             result.put(entry.getKey(), entry.getValue());
         }
-        for(Map.Entry<String, IData> entry : data.asMap().entrySet()) {
+        for (Map.Entry<String, IData> entry : data.asMap().entrySet()) {
             result.put(entry.getKey(), entry.getValue());
         }
         return new DataMap(result, immutable);
@@ -287,12 +283,10 @@ public class DataMap implements IData {
     }
 
     private boolean isValidIdentifier(String str) {
-        if(!Character.isJavaIdentifierStart(str.charAt(0)))
-            return false;
+        if (!Character.isJavaIdentifierStart(str.charAt(0))) return false;
 
-        for(int i = 1; i < str.length(); i++) {
-            if(!Character.isJavaIdentifierPart(str.charAt(i)))
-                return false;
+        for (int i = 1; i < str.length(); i++) {
+            if (!Character.isJavaIdentifierPart(str.charAt(i))) return false;
         }
 
         return true;

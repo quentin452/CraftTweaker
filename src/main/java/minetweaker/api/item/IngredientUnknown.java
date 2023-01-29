@@ -1,9 +1,9 @@
 package minetweaker.api.item;
 
+import java.util.*;
+
 import minetweaker.api.liquid.ILiquidStack;
 import minetweaker.api.player.IPlayer;
-
-import java.util.*;
 
 /**
  * @author Stan
@@ -72,7 +72,6 @@ public class IngredientUnknown implements IIngredient {
     public boolean matchesExact(IItemStack item) {
         return false;
     }
-
 
     @Override
     public boolean matches(ILiquidStack liquid) {

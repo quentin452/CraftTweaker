@@ -5,6 +5,7 @@ import minetweaker.api.chat.IChatMessage;
 import minetweaker.api.data.IData;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.player.IPlayer;
+
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
@@ -12,29 +13,30 @@ import net.minecraft.util.IChatComponent;
 /**
  * @author Jared
  */
-public class CommandBlockPlayer implements IPlayer{
+public class CommandBlockPlayer implements IPlayer {
+
     private final ICommandSender sender;
 
-    public CommandBlockPlayer(ICommandSender sender){
+    public CommandBlockPlayer(ICommandSender sender) {
         this.sender = sender;
     }
 
-    public ICommandSender getInternal(){
+    public ICommandSender getInternal() {
         return sender;
     }
 
     @Override
-    public String getId(){
+    public String getId() {
         return null; // TODO: we should be having this for MC 1.7.10, right?
     }
 
     @Override
-    public String getName(){
+    public String getName() {
         return sender.getCommandSenderName();
     }
 
     @Override
-    public IData getData(){
+    public IData getData() {
         return null;
     }
 
@@ -54,14 +56,14 @@ public class CommandBlockPlayer implements IPlayer{
     }
 
     @Override
-    public void update(IData data){
+    public void update(IData data) {
 
     }
 
     @Override
-    public void sendChat(IChatMessage message){
+    public void sendChat(IChatMessage message) {
         Object internal = message.getInternal();
-        if(!(internal instanceof IChatComponent)){
+        if (!(internal instanceof IChatComponent)) {
             MineTweakerAPI.logError("not a valid chat message");
             return;
         }
@@ -69,73 +71,68 @@ public class CommandBlockPlayer implements IPlayer{
     }
 
     @Override
-    public void sendChat(String message){
-        if (message.length() > MAX_CHAT_MESSAGE_LENGTH)
-        {
+    public void sendChat(String message) {
+        if (message.length() > MAX_CHAT_MESSAGE_LENGTH) {
             message = message.substring(0, MAX_CHAT_MESSAGE_LENGTH);
         }
         sender.addChatMessage(new ChatComponentText(message));
     }
 
     @Override
-    public int getHotbarSize(){
+    public int getHotbarSize() {
         return 0;
     }
 
     @Override
-    public IItemStack getHotbarStack(int i){
+    public IItemStack getHotbarStack(int i) {
         return null;
     }
 
     @Override
-    public int getInventorySize(){
+    public int getInventorySize() {
         return 0;
     }
 
     @Override
-    public IItemStack getInventoryStack(int i){
+    public IItemStack getInventoryStack(int i) {
         return null;
     }
 
     @Override
-    public IItemStack getCurrentItem(){
+    public IItemStack getCurrentItem() {
         return null;
     }
 
     @Override
-    public boolean isCreative(){
+    public boolean isCreative() {
         return false;
     }
 
     @Override
-    public boolean isAdventure(){
+    public boolean isAdventure() {
         return false;
     }
 
     @Override
-    public void openBrowser(String url){
-    }
+    public void openBrowser(String url) {}
 
     @Override
-    public void copyToClipboard(String value){
-    }
+    public void copyToClipboard(String value) {}
 
     @Override
-    public boolean equals(Object other){
-        if(other.getClass() != this.getClass())
-            return false;
+    public boolean equals(Object other) {
+        if (other.getClass() != this.getClass()) return false;
 
         return ((CommandBlockPlayer) other).sender.equals(sender);
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         int hash = 5;
         hash = 23 * hash + (this.sender != null ? this.sender.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public void give(IItemStack stack){
-    }
+    public void give(IItemStack stack) {}
 }

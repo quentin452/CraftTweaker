@@ -110,11 +110,9 @@ public class DataByteArray implements IData {
         StringBuilder result = new StringBuilder();
         result.append("[");
         boolean first = true;
-        for(byte value : data) {
-            if(first)
-                first = false;
-            else
-                result.append(", ");
+        for (byte value : data) {
+            if (first) first = false;
+            else result.append(", ");
 
             result.append(value);
         }
@@ -125,7 +123,7 @@ public class DataByteArray implements IData {
     @Override
     public List<IData> asList() {
         List<IData> result = new ArrayList<IData>();
-        for(byte value : data) {
+        for (byte value : data) {
             result.add(new DataByte(value));
         }
         return result;
@@ -144,7 +142,7 @@ public class DataByteArray implements IData {
     @Override
     public int[] asIntArray() {
         int[] result = new int[data.length];
-        for(int i = 0; i < result.length; i++) {
+        for (int i = 0; i < result.length; i++) {
             result[i] = data[i];
         }
         return result;
@@ -157,7 +155,7 @@ public class DataByteArray implements IData {
 
     @Override
     public void setAt(int i, IData value) {
-        if(immutable) {
+        if (immutable) {
             throw new UnsupportedOperationException("Cannot modify this byte array");
         } else {
             data[i] = value.asByte();
@@ -196,7 +194,7 @@ public class DataByteArray implements IData {
 
     @Override
     public IData immutable() {
-        if(immutable) {
+        if (immutable) {
             return this;
         } else {
             return new DataByteArray(Arrays.copyOf(this.data, this.data.length), true);

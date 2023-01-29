@@ -7,10 +7,10 @@ import stanhebben.zenscript.annotations.*;
  */
 @ZenClass("vanilla.IVanilla")
 public interface IVanilla {
-    
+
     @ZenGetter("loot")
     ILootRegistry getLoot();
-    
+
     @ZenGetter("seeds")
     ISeedRegistry getSeeds();
 }

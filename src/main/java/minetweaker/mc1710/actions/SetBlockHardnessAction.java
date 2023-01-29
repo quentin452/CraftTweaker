@@ -1,13 +1,13 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this license header, choose License Headers in Project Properties. To change this template file, choose
+ * Tools | Templates and open the template in the editor.
  */
 
 package minetweaker.mc1710.actions;
 
 import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 
@@ -41,8 +41,7 @@ public class SetBlockHardnessAction implements IUndoableAction {
 
     @Override
     public void undo() {
-        if (isBlock(stack))
-            set(stack, oldHardness);
+        if (isBlock(stack)) set(stack, oldHardness);
     }
 
     @Override

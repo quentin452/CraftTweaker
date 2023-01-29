@@ -1,14 +1,13 @@
 package minetweaker.api.item;
 
+import java.util.List;
+
 import minetweaker.api.liquid.ILiquidStack;
 import minetweaker.api.player.IPlayer;
 import minetweaker.util.ArrayUtil;
 
-import java.util.List;
-
 /**
- * Represents the wildcard ingredient, with conditions and/or transformers
- * applied to it.
+ * Represents the wildcard ingredient, with conditions and/or transformers applied to it.
  *
  * @author Stan Hebben
  */
@@ -71,9 +70,8 @@ public class IngredientAnyAdvanced implements IIngredient {
 
     @Override
     public boolean matches(IItemStack item) {
-        for(IItemCondition condition : conditions) {
-            if(!condition.matches(item))
-                return false;
+        for (IItemCondition condition : conditions) {
+            if (!condition.matches(item)) return false;
         }
 
         return true;
@@ -81,9 +79,8 @@ public class IngredientAnyAdvanced implements IIngredient {
 
     @Override
     public boolean matchesExact(IItemStack item) {
-        for(IItemCondition condition : conditions) {
-            if(!condition.matches(item))
-                return false;
+        for (IItemCondition condition : conditions) {
+            if (!condition.matches(item)) return false;
         }
 
         return true;
@@ -98,9 +95,8 @@ public class IngredientAnyAdvanced implements IIngredient {
     @Override
     public boolean contains(IIngredient ingredient) {
         List<IItemStack> iitems = ingredient.getItems();
-        for(IItemStack iitem : iitems) {
-            if(!matches(iitem))
-                return false;
+        for (IItemStack iitem : iitems) {
+            if (!matches(iitem)) return false;
         }
 
         return true;
@@ -108,7 +104,7 @@ public class IngredientAnyAdvanced implements IIngredient {
 
     @Override
     public IItemStack applyTransform(IItemStack item, IPlayer byPlayer) {
-        for(IItemTransformer transform : transformers) {
+        for (IItemTransformer transform : transformers) {
             item = transform.transform(item, byPlayer);
         }
 

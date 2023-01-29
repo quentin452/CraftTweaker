@@ -1,13 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this license header, choose License Headers in Project Properties. To change this template file, choose
+ * Tools | Templates and open the template in the editor.
  */
 
 package minetweaker.runtime.providers;
-
-import minetweaker.runtime.IScriptIterator;
-import minetweaker.runtime.IScriptProvider;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -18,72 +14,78 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import minetweaker.runtime.IScriptIterator;
+import minetweaker.runtime.IScriptProvider;
+
 /**
  *
  * @author Stan
  */
 public class ScriptProviderCustom implements IScriptProvider {
-	private static final Charset UTF8 = Charset.forName("UTF-8");
 
-	private final String moduleName;
-	private final List<CustomScript> scripts;
+    private static final Charset UTF8 = Charset.forName("UTF-8");
 
-	public ScriptProviderCustom(String moduleName) {
-		this.moduleName = moduleName;
-		scripts = new ArrayList<CustomScript>();
-	}
+    private final String moduleName;
+    private final List<CustomScript> scripts;
 
-	public void add(String name, byte[] content) {
-		scripts.add(new CustomScript(name, content));
-	}
+    public ScriptProviderCustom(String moduleName) {
+        this.moduleName = moduleName;
+        scripts = new ArrayList<CustomScript>();
+    }
 
-	public void add(String name, String content) {
-		add(name, content.getBytes(UTF8));
-	}
+    public void add(String name, byte[] content) {
+        scripts.add(new CustomScript(name, content));
+    }
 
-	@Override
-	public Iterator<IScriptIterator> getScripts() {
+    public void add(String name, String content) {
+        add(name, content.getBytes(UTF8));
+    }
 
-		return Collections.<IScriptIterator>singleton(new CustomScriptIterator()).iterator();
-	}
+    @Override
+    public Iterator<IScriptIterator> getScripts() {
 
-	private class CustomScript {
-		private final String name;
-		private final byte[] content;
+        return Collections.<IScriptIterator>singleton(new CustomScriptIterator()).iterator();
+    }
 
-		public CustomScript(String name, byte[] content) {
-			this.name = name;
-			this.content = content;
-		}
-	}
+    private class CustomScript {
 
-	private class CustomScriptIterator implements IScriptIterator {
-		private CustomScript current;
-		private final Iterator<CustomScript> iterator = scripts.iterator();
+        private final String name;
+        private final byte[] content;
 
-		@Override
-		public String getGroupName() {
-			return moduleName;
-		}
+        public CustomScript(String name, byte[] content) {
+            this.name = name;
+            this.content = content;
+        }
+    }
 
-		@Override
-		public boolean next() {
-			if (iterator.hasNext()) {
-				current = iterator.next();
-				return true;
-			} else {
-				return false;
-			}
-		}
+    private class CustomScriptIterator implements IScriptIterator {
 
-		@Override
-		public String getName() {
-			return current.name;
-		}
+        private CustomScript current;
+        private final Iterator<CustomScript> iterator = scripts.iterator();
 
-		@Override
-		public InputStream open() throws IOException {
-			return new ByteArrayInputStream(current.content);
-		}
-	}
+        @Override
+        public String getGroupName() {
+            return moduleName;
+        }
+
+        @Override
+        public boolean next() {
+            if (iterator.hasNext()) {
+                current = iterator.next();
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        @Override
+        public String getName() {
+            return current.name;
+        }
+
+        @Override
+        public InputStream open() throws IOException {
+            return new ByteArrayInputStream(current.content);
+        }
+    }
 }

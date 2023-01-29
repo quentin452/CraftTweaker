@@ -1,13 +1,14 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this license header, choose License Headers in Project Properties. To change this template file, choose
+ * Tools | Templates and open the template in the editor.
  */
 
 package minetweaker.mc1710.formatting;
 
 import java.util.Arrays;
+
 import minetweaker.api.formatting.IFormattedText;
+
 import net.minecraft.util.EnumChatFormatting;
 
 /**
@@ -15,53 +16,54 @@ import net.minecraft.util.EnumChatFormatting;
  * @author Stan
  */
 public class FormattedStringJoin implements IMCFormattedString {
-	private final IMCFormattedString[] values;
 
-	public FormattedStringJoin(IMCFormattedString first, IMCFormattedString second) {
-		values = new IMCFormattedString[] { first, second };
-	}
+    private final IMCFormattedString[] values;
 
-	public FormattedStringJoin(IMCFormattedString[] values) {
-		this.values = values;
-	}
+    public FormattedStringJoin(IMCFormattedString first, IMCFormattedString second) {
+        values = new IMCFormattedString[] { first, second };
+    }
 
-	@Override
-	public String getTooltipString() {
-		StringBuilder result = new StringBuilder();
-		for (IMCFormattedString value : values) {
-			result.append(value.getTooltipString());
-		}
-		return result.toString();
-	}
+    public FormattedStringJoin(IMCFormattedString[] values) {
+        this.values = values;
+    }
 
-	@Override
-	public String getTooltipString(String context) {
-		boolean first = true;
+    @Override
+    public String getTooltipString() {
+        StringBuilder result = new StringBuilder();
+        for (IMCFormattedString value : values) {
+            result.append(value.getTooltipString());
+        }
+        return result.toString();
+    }
 
-		StringBuilder result = new StringBuilder();
-		for (IMCFormattedString value : values) {
-			if (first) {
-				first = false;
-			} else {
-				result.append(context);
-			}
+    @Override
+    public String getTooltipString(String context) {
+        boolean first = true;
 
-			result.append(value.getTooltipString());
-			result.append(EnumChatFormatting.RESET);
-		}
+        StringBuilder result = new StringBuilder();
+        for (IMCFormattedString value : values) {
+            if (first) {
+                first = false;
+            } else {
+                result.append(context);
+            }
 
-		return result.toString();
-	}
+            result.append(value.getTooltipString());
+            result.append(EnumChatFormatting.RESET);
+        }
 
-	@Override
-	public IFormattedText add(IFormattedText other) {
-		return cat(other);
-	}
+        return result.toString();
+    }
 
-	@Override
-	public IFormattedText cat(IFormattedText other) {
-		IMCFormattedString[] newValues = Arrays.copyOf(values, values.length + 1);
-		newValues[values.length] = (IMCFormattedString) other;
-		return new FormattedStringJoin(newValues);
-	}
+    @Override
+    public IFormattedText add(IFormattedText other) {
+        return cat(other);
+    }
+
+    @Override
+    public IFormattedText cat(IFormattedText other) {
+        IMCFormattedString[] newValues = Arrays.copyOf(values, values.length + 1);
+        newValues[values.length] = (IMCFormattedString) other;
+        return new FormattedStringJoin(newValues);
+    }
 }

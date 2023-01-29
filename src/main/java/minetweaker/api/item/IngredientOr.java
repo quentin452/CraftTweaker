@@ -1,10 +1,10 @@
 package minetweaker.api.item;
 
+import java.util.*;
+
 import minetweaker.api.liquid.ILiquidStack;
 import minetweaker.api.player.IPlayer;
 import minetweaker.util.ArrayUtil;
-
-import java.util.*;
 
 /**
  * @author Stan
@@ -24,10 +24,11 @@ public class IngredientOr implements IIngredient {
     }
 
     public IngredientOr(IIngredient a, IIngredient b) {
-        this(new IIngredient[]{a, b});
+        this(new IIngredient[] { a, b });
     }
 
-    private IngredientOr(IIngredient[] elements, String mark, IItemCondition[] conditions, IItemTransformer[] transformers) {
+    private IngredientOr(IIngredient[] elements, String mark, IItemCondition[] conditions,
+            IItemTransformer[] transformers) {
         this.elements = elements;
         this.mark = mark;
         this.conditions = conditions;
@@ -47,7 +48,7 @@ public class IngredientOr implements IIngredient {
     @Override
     public List<IItemStack> getItems() {
         List<IItemStack> result = new ArrayList<>();
-        for(IIngredient element : elements) {
+        for (IIngredient element : elements) {
             result.addAll(element.getItems());
         }
         return result;
@@ -56,7 +57,7 @@ public class IngredientOr implements IIngredient {
     @Override
     public List<ILiquidStack> getLiquids() {
         List<ILiquidStack> result = new ArrayList<>();
-        for(IIngredient element : elements) {
+        for (IIngredient element : elements) {
             result.addAll(element.getLiquids());
         }
         return result;
@@ -65,7 +66,7 @@ public class IngredientOr implements IIngredient {
     @Override
     public IIngredient amount(int amount) {
         IIngredient[] result = new IIngredient[elements.length];
-        for(int i = 0; i < elements.length; i++) {
+        for (int i = 0; i < elements.length; i++) {
             result[i] = elements[i].amount(amount);
         }
         return new IngredientOr(result);
@@ -93,9 +94,8 @@ public class IngredientOr implements IIngredient {
 
     @Override
     public boolean matches(IItemStack item) {
-        for(IIngredient ingredient : elements) {
-            if(ingredient.matches(item))
-                return true;
+        for (IIngredient ingredient : elements) {
+            if (ingredient.matches(item)) return true;
         }
 
         return false;
@@ -103,9 +103,8 @@ public class IngredientOr implements IIngredient {
 
     @Override
     public boolean matchesExact(IItemStack item) {
-        for(IIngredient ingredient : elements) {
-            if(ingredient.matchesExact(item))
-                return true;
+        for (IIngredient ingredient : elements) {
+            if (ingredient.matchesExact(item)) return true;
         }
 
         return false;
@@ -113,9 +112,8 @@ public class IngredientOr implements IIngredient {
 
     @Override
     public boolean matches(ILiquidStack liquid) {
-        for(IIngredient ingredient : elements) {
-            if(ingredient.matches(liquid))
-                return true;
+        for (IIngredient ingredient : elements) {
+            if (ingredient.matches(liquid)) return true;
         }
 
         return false;
@@ -124,9 +122,8 @@ public class IngredientOr implements IIngredient {
     @Override
     public boolean contains(IIngredient ingredient) {
         List<IItemStack> items = ingredient.getItems();
-        for(IItemStack item : items) {
-            if(!matches(item))
-                return false;
+        for (IItemStack item : items) {
+            if (!matches(item)) return false;
         }
 
         return true;
@@ -134,7 +131,7 @@ public class IngredientOr implements IIngredient {
 
     @Override
     public IItemStack applyTransform(IItemStack item, IPlayer byPlayer) {
-        for(IItemTransformer transformer : transformers) {
+        for (IItemTransformer transformer : transformers) {
             item = transformer.transform(item, byPlayer);
         }
 

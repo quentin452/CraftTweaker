@@ -1,9 +1,9 @@
 package minetweaker.api.util;
 
-import minetweaker.api.item.*;
-
 import java.util.*;
 import java.util.stream.Collectors;
+
+import minetweaker.api.item.*;
 
 /**
  * @author Stan
@@ -17,12 +17,13 @@ public class IngredientMap<T> {
     }
 
     public IngredientMapEntry<T> register(IIngredient ingredient, T entry) {
-        Set<IItemDefinition> items = ingredient.getItems().stream().map(IItemStack::getDefinition).collect(Collectors.toSet());
+        Set<IItemDefinition> items = ingredient.getItems().stream().map(IItemStack::getDefinition)
+                .collect(Collectors.toSet());
 
         IngredientMapEntry<T> actualEntry = new IngredientMapEntry<>(ingredient, entry);
 
-        for(IItemDefinition item : items) {
-            if(!entries.containsKey(item)) {
+        for (IItemDefinition item : items) {
+            if (!entries.containsKey(item)) {
                 entries.put(item, new ArrayList<>());
             }
 
@@ -33,18 +34,19 @@ public class IngredientMap<T> {
     }
 
     public void unregister(IngredientMapEntry<T> entry) {
-        Set<IItemDefinition> items = entry.ingredient.getItems().stream().map(IItemStack::getDefinition).collect(Collectors.toSet());
+        Set<IItemDefinition> items = entry.ingredient.getItems().stream().map(IItemStack::getDefinition)
+                .collect(Collectors.toSet());
 
-        for(IItemDefinition item : items) {
-            if(entries.containsKey(item)) {
+        for (IItemDefinition item : items) {
+            if (entries.containsKey(item)) {
                 entries.get(item).remove(entry);
             }
         }
     }
 
     public T getFirstEntry(IItemStack item) {
-        for(IngredientMapEntry<T> entry : entries.get(item.getDefinition())) {
-            if(entry.ingredient.matches(item)) {
+        for (IngredientMapEntry<T> entry : entries.get(item.getDefinition())) {
+            if (entry.ingredient.matches(item)) {
                 return entry.entry;
             }
         }
@@ -53,12 +55,13 @@ public class IngredientMap<T> {
     }
 
     public List<T> getEntries(IItemStack item) {
-        if(item == null || item.getDefinition() == null){
+        if (item == null || item.getDefinition() == null) {
             return Collections.EMPTY_LIST;
         }
         List<IngredientMapEntry<T>> entries = this.entries.get(item.getDefinition());
-        if(entries != null) {
-            return entries.stream().filter(entry -> entry.ingredient.matches(item)).map(entry -> entry.entry).collect(Collectors.toCollection(ArrayList::new));
+        if (entries != null) {
+            return entries.stream().filter(entry -> entry.ingredient.matches(item)).map(entry -> entry.entry)
+                    .collect(Collectors.toCollection(ArrayList::new));
         } else {
             return Collections.EMPTY_LIST;
         }

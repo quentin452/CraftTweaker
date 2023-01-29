@@ -1,11 +1,11 @@
 package minetweaker.api.event;
 
+import java.util.List;
+
 import minetweaker.api.damage.IDamageSource;
 import minetweaker.api.entity.IEntityItem;
 import minetweaker.api.player.IPlayer;
 import stanhebben.zenscript.annotations.*;
-
-import java.util.List;
 
 /**
  * @author Stan

@@ -1,5 +1,14 @@
 package minetweaker.mc1710.recipes;
 
+import static minetweaker.api.minecraft.MineTweakerMC.getIItemStack;
+import static minetweaker.api.minecraft.MineTweakerMC.getItemStack;
+import static minetweaker.api.minecraft.MineTweakerMC.getOreDict;
+
+import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.RecursiveAction;
+import java.util.stream.Collectors;
+
 import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
 import minetweaker.MineTweakerImplementationAPI;
@@ -18,6 +27,7 @@ import minetweaker.mc1710.item.MCItemStack;
 import minetweaker.mc1710.util.MineTweakerHacks;
 import minetweaker.mc1710.util.ThreadSafeBitSet;
 import minetweaker.util.IEventHandler;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryCrafting;
@@ -28,23 +38,16 @@ import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+
 import org.apache.commons.lang3.tuple.Pair;
+
 import stanhebben.zenscript.annotations.Optional;
-
-import java.util.*;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.RecursiveAction;
-import java.util.concurrent.RecursiveTask;
-import java.util.stream.Collectors;
-
-import static minetweaker.api.minecraft.MineTweakerMC.getIItemStack;
-import static minetweaker.api.minecraft.MineTweakerMC.getItemStack;
-import static minetweaker.api.minecraft.MineTweakerMC.getOreDict;
 
 /**
  * @author Stan
  */
 public final class MCRecipeManager implements IRecipeManager {
+
     public static final List<ActionBaseAddRecipe> recipesToAdd = new ArrayList<>();
     public static final List<ActionBaseRemoveRecipes> recipesToRemove = new ArrayList<>();
     public static final ActionRemoveRecipesNoIngredients actionRemoveRecipesNoIngredients = new ActionRemoveRecipesNoIngredients();
@@ -118,7 +121,7 @@ public final class MCRecipeManager implements IRecipeManager {
 
     @Override
     public int remove(IIngredient output, @Optional boolean nbtMatch) {
-        if(output == null) {
+        if (output == null) {
             MineTweakerAPI.logError("Cannot remove recipes for a null item!");
             return 0;
         }
@@ -142,7 +145,8 @@ public final class MCRecipeManager implements IRecipeManager {
     }
 
     @Override
-    public void addShaped(IItemStack output, IIngredient[][] ingredients, IRecipeFunction function, IRecipeAction action) {
+    public void addShaped(IItemStack output, IIngredient[][] ingredients, IRecipeFunction function,
+            IRecipeAction action) {
         recipesToAdd.add(new ActionAddShapedRecipe(output, ingredients, function, action, false));
     }
 
@@ -162,35 +166,36 @@ public final class MCRecipeManager implements IRecipeManager {
     }
 
     @Override
-    public void addShapedMirrored(IItemStack output, IIngredient[][] ingredients, IRecipeFunction function, IRecipeAction action) {
+    public void addShapedMirrored(IItemStack output, IIngredient[][] ingredients, IRecipeFunction function,
+            IRecipeAction action) {
         recipesToAdd.add(new ActionAddShapedRecipe(output, ingredients, function, action, true));
     }
 
     @Override
-    public void addShapeless(IItemStack output, IIngredient[] ingredients, IRecipeFunction function, IRecipeAction action) {
-        if(checkShapelessNulls(output, ingredients))
-            return;
+    public void addShapeless(IItemStack output, IIngredient[] ingredients, IRecipeFunction function,
+            IRecipeAction action) {
+        if (checkShapelessNulls(output, ingredients)) return;
 
         recipesToAdd.add(new ActionAddShapelessRecipe(output, ingredients, function, action));
     }
 
     @Override
-    public void addShapeless(IItemStack output, IIngredient[] ingredients, IRecipeFunction function){
+    public void addShapeless(IItemStack output, IIngredient[] ingredients, IRecipeFunction function) {
         addShapeless(output, ingredients, function, null);
     }
 
     @Override
-    public void addShapeless(IItemStack output, IIngredient[] ingredients, IRecipeAction action){
+    public void addShapeless(IItemStack output, IIngredient[] ingredients, IRecipeAction action) {
         addShapeless(output, ingredients, null, action);
     }
 
     @Override
-    public void addShapeless(IItemStack output, IIngredient[] ingredients){
+    public void addShapeless(IItemStack output, IIngredient[] ingredients) {
         addShapeless(output, ingredients, null, null);
     }
 
     private boolean checkShapelessNulls(IItemStack output, IIngredient[] ingredients) {
-        if(output != null && Arrays.stream(ingredients).allMatch(Objects::isNull)) {
+        if (output != null && Arrays.stream(ingredients).allMatch(Objects::isNull)) {
             MineTweakerAPI.logError("Null not allowed in shapeless recipes! Recipe for: " + output + " not created!");
             return true;
         }
@@ -199,7 +204,7 @@ public final class MCRecipeManager implements IRecipeManager {
 
     @Override
     public int removeShaped(IIngredient output, IIngredient[][] ingredients) {
-        if(output == null) {
+        if (output == null) {
             MineTweakerAPI.logError("Cannot remove recipes for a null item!");
             return 0;
         }
@@ -214,7 +219,7 @@ public final class MCRecipeManager implements IRecipeManager {
 
     @Override
     public int removeShapeless(IIngredient output, IIngredient[] ingredients, boolean wildcard) {
-        if(output == null) {
+        if (output == null) {
             MineTweakerAPI.logError("Cannot remove recipes for a null item!");
             return 0;
         }
@@ -269,14 +274,18 @@ public final class MCRecipeManager implements IRecipeManager {
     }
 
     public abstract static class ActionBaseRemoveRecipes implements IUndoableAction {
+
         public abstract boolean matches(IRecipe r);
+
         public abstract Set<IRecipe> find();
-        public void removeRecipes(Set<IRecipe> toRemove ) {
+
+        public void removeRecipes(Set<IRecipe> toRemove) {
             recipes.removeIf(toRemove::contains);
         }
     }
 
     public static class ActionRemoveRecipesNoIngredients extends ActionBaseRemoveRecipes implements IUndoableAction {
+
         // pair of output, nbtMatch
         private final List<Pair<IIngredient, Boolean>> outputs = new ArrayList<>();
         private Set<IRecipe> toRemove = new HashSet<>();
@@ -297,11 +306,10 @@ public final class MCRecipeManager implements IRecipeManager {
 
         @Override
         public Set<IRecipe> find() {
-            return recipes.parallelStream()
-                    .filter(r -> {
-                        ItemStack recipeOutput = r.getRecipeOutput();
-                        return recipeOutput != null && matches(getIItemStack(recipeOutput));
-                    }).collect(Collectors.toSet());
+            return recipes.parallelStream().filter(r -> {
+                ItemStack recipeOutput = r.getRecipeOutput();
+                return recipeOutput != null && matches(getIItemStack(recipeOutput));
+            }).collect(Collectors.toSet());
         }
 
         @Override
@@ -318,7 +326,7 @@ public final class MCRecipeManager implements IRecipeManager {
 
         @Override
         public void undo() {
-            for(IRecipe recipe: toRemove) {
+            for (IRecipe recipe : toRemove) {
                 recipesToAdd.add(new ActionBaseAddRecipe(recipe));
             }
         }
@@ -339,10 +347,10 @@ public final class MCRecipeManager implements IRecipeManager {
         }
 
         private boolean matches(IItemStack stack) {
-            for(Pair<IIngredient, Boolean> entry : outputs) {
+            for (Pair<IIngredient, Boolean> entry : outputs) {
                 IIngredient output = entry.getKey();
                 Boolean nbtMatch = entry.getValue();
-                if(nbtMatch ? output.matchesExact(stack) : output.matches(stack)) {
+                if (nbtMatch ? output.matchesExact(stack) : output.matches(stack)) {
                     return true;
                 }
             }
@@ -352,6 +360,7 @@ public final class MCRecipeManager implements IRecipeManager {
     }
 
     public static class ActionRemoveShapelessRecipes extends ActionBaseRemoveRecipes implements IUndoableAction {
+
         final IIngredient output;
         final IIngredient[] ingredients;
         final boolean wildcard;
@@ -384,8 +393,7 @@ public final class MCRecipeManager implements IRecipeManager {
                         return false;
                     }
 
-                    checkIngredient:
-                    for (IIngredient ingredient : ingredients) {
+                    checkIngredient: for (IIngredient ingredient : ingredients) {
                         for (int k = 0; k < srecipe.getRecipeSize(); k++) {
                             if (MCRecipeManager.matches(srecipe.recipeItems.get(k), ingredient)) {
                                 continue checkIngredient;
@@ -405,8 +413,7 @@ public final class MCRecipeManager implements IRecipeManager {
                         return false;
                     }
 
-                    checkIngredient:
-                    for (IIngredient ingredient : ingredients) {
+                    checkIngredient: for (IIngredient ingredient : ingredients) {
                         for (int k = 0; k < srecipe.getRecipeSize(); k++) {
                             if (MCRecipeManager.matches(inputs.get(k), ingredient)) {
                                 continue checkIngredient;
@@ -424,8 +431,7 @@ public final class MCRecipeManager implements IRecipeManager {
         public Set<IRecipe> find() {
             Set<IRecipe> toRemove = new HashSet<>();
             for (IRecipe recipe : recipes) {
-                if (matches(recipe))
-                    toRemove.add(recipe);
+                if (matches(recipe)) toRemove.add(recipe);
             }
             return toRemove;
         }
@@ -444,14 +450,14 @@ public final class MCRecipeManager implements IRecipeManager {
 
         @Override
         public void undo() {
-            for(IRecipe recipe: toRemove) {
+            for (IRecipe recipe : toRemove) {
                 recipesToAdd.add(new ActionBaseAddRecipe(recipe));
             }
         }
 
         @Override
         public String describe() {
-            if(output != null) {
+            if (output != null) {
                 return "Removing Shapeless recipes for " + output.toString();
             } else {
                 return "Trying to remove recipes for invalid output";
@@ -470,13 +476,12 @@ public final class MCRecipeManager implements IRecipeManager {
     }
 
     public static class ActionRemoveShapedRecipes extends ActionBaseRemoveRecipes implements IUndoableAction {
+
         final IIngredient output;
         final IIngredient[][] ingredients;
         final int ingredientsWidth;
         final int ingredientsHeight;
         Set<IRecipe> toRemove = new HashSet<>();
-
-
 
         public ActionRemoveShapedRecipes(IIngredient output, IIngredient[][] ingredients) {
             this.output = output;
@@ -501,16 +506,17 @@ public final class MCRecipeManager implements IRecipeManager {
             if (output == null || !this.output.matches(new MCItemStack(output))) {
                 return false;
             }
-            if (!(recipe instanceof ShapedRecipes || recipe instanceof ShapedOreRecipe))
-                return false;
+            if (!(recipe instanceof ShapedRecipes || recipe instanceof ShapedOreRecipe)) return false;
 
             if (ingredients != null) {
                 boolean ore = recipe instanceof ShapedOreRecipe;
                 final ShapedRecipes shapedRecipe = !ore ? (ShapedRecipes) recipe : null;
                 final ShapedOreRecipe shapedOreRecipe = ore ? (ShapedOreRecipe) recipe : null;
 
-                final int recipeWidth = ore ? MineTweakerHacks.getShapedOreRecipeWidth(shapedOreRecipe) : shapedRecipe.recipeWidth;
-                final int recipeHeight = ore ? shapedOreRecipe.getRecipeSize() / recipeWidth : shapedRecipe.recipeHeight;
+                final int recipeWidth = ore ? MineTweakerHacks.getShapedOreRecipeWidth(shapedOreRecipe)
+                        : shapedRecipe.recipeWidth;
+                final int recipeHeight = ore ? shapedOreRecipe.getRecipeSize() / recipeWidth
+                        : shapedRecipe.recipeHeight;
 
                 if (ingredientsWidth != recipeWidth || ingredientsHeight != recipeHeight) {
                     return false;
@@ -520,7 +526,8 @@ public final class MCRecipeManager implements IRecipeManager {
                     final IIngredient[] row = ingredients[j];
                     for (int k = 0; k < ingredientsWidth; k++) {
                         final IIngredient ingredient = k > row.length ? null : row[k];
-                        final Object input = (ore ? shapedOreRecipe.getInput() : shapedRecipe.recipeItems)[j * recipeWidth + k];
+                        final Object input = (ore ? shapedOreRecipe.getInput() : shapedRecipe.recipeItems)[j
+                                * recipeWidth + k];
 
                         if (!MCRecipeManager.matches(input, ingredient)) {
                             return false;
@@ -537,8 +544,7 @@ public final class MCRecipeManager implements IRecipeManager {
             Set<IRecipe> toRemove = new HashSet<>();
 
             for (final IRecipe recipe : recipes) {
-                if (matches(recipe))
-                    toRemove.add(recipe);
+                if (matches(recipe)) toRemove.add(recipe);
             }
             return toRemove;
         }
@@ -558,14 +564,14 @@ public final class MCRecipeManager implements IRecipeManager {
 
         @Override
         public void undo() {
-            for(IRecipe recipe: toRemove) {
+            for (IRecipe recipe : toRemove) {
                 recipesToAdd.add(new ActionBaseAddRecipe(recipe));
             }
         }
 
         @Override
         public String describe() {
-            if(output != null) {
+            if (output != null) {
                 return "Removing Shaped recipes for " + output.toString();
             } else {
                 return "Trying to remove recipes for invalid output";
@@ -584,6 +590,7 @@ public final class MCRecipeManager implements IRecipeManager {
     }
 
     public static class ActionBaseAddRecipe implements IUndoableAction {
+
         private final IRecipe iRecipe;
         private final ICraftingRecipe craftingRecipe;
 
@@ -613,8 +620,7 @@ public final class MCRecipeManager implements IRecipeManager {
         @Override
         public void apply() {
             recipes.add(iRecipe);
-            if (craftingRecipe != null && craftingRecipe.hasTransformers())
-                transformerRecipes.add(craftingRecipe);
+            if (craftingRecipe != null && craftingRecipe.hasTransformers()) transformerRecipes.add(craftingRecipe);
         }
 
         @Override
@@ -630,8 +636,11 @@ public final class MCRecipeManager implements IRecipeManager {
         @Override
         public String describe() {
 
-            if(output != null) {
-                return "" + (this.isRestoring ? "Restoring" : "Adding ") + (isShaped ? "shaped" : "shapeless") + " recipe for " + output.getDisplayName();
+            if (output != null) {
+                return "" + (this.isRestoring ? "Restoring" : "Adding ")
+                        + (isShaped ? "shaped" : "shapeless")
+                        + " recipe for "
+                        + output.getDisplayName();
             } else {
                 return "Trying to add " + (isShaped ? "shaped" : "shapeless") + "recipe without correct output";
             }
@@ -649,18 +658,23 @@ public final class MCRecipeManager implements IRecipeManager {
     }
 
     private static class ActionAddShapedRecipe extends ActionBaseAddRecipe {
-        public ActionAddShapedRecipe(IItemStack output, IIngredient[][] ingredients, IRecipeFunction function, IRecipeAction action, boolean mirrored) {
+
+        public ActionAddShapedRecipe(IItemStack output, IIngredient[][] ingredients, IRecipeFunction function,
+                IRecipeAction action, boolean mirrored) {
             super(new ShapedRecipe(output, ingredients, function, action, mirrored), output, true);
         }
     }
 
     private static class ActionAddShapelessRecipe extends ActionBaseAddRecipe {
-        public ActionAddShapelessRecipe(IItemStack output, IIngredient[] ingredients, IRecipeFunction function, IRecipeAction action) {
+
+        public ActionAddShapelessRecipe(IItemStack output, IIngredient[] ingredients, IRecipeFunction function,
+                IRecipeAction action) {
             super(new ShapelessRecipe(output, ingredients, function, action), output, false);
         }
     }
 
     private static class ActionBatchRemoveRecipe implements IUndoableAction {
+
         private final Set<IRecipe> recipes;
 
         private ActionBatchRemoveRecipe(Set<IRecipe> recipes) {
@@ -702,7 +716,7 @@ public final class MCRecipeManager implements IRecipeManager {
     public static void applyAdditionsAndRemovals() {
         System.out.println("MineTweaker: Applying additions and removals");
         MineTweakerAPI.apply(MCRecipeManager.actionRemoveRecipesNoIngredients);
-        if(recipesToUndo.size() > 0) {
+        if (recipesToUndo.size() > 0) {
             recipes.removeIf(recipesToUndo::contains);
         }
         int commonPoolParallelism = getCommonPoolParallelism();
@@ -710,17 +724,18 @@ public final class MCRecipeManager implements IRecipeManager {
             // if thread == 1, then we have parallel overhead but doesn't have parallel speedup.
             // never do this
             recipesToRemove.forEach(ActionBaseRemoveRecipes::apply);
-        } else
-            try {
-                ThreadSafeBitSet removed = new ThreadSafeBitSet();
-                new FindRecipeToRemoveTask(removed, recipesToRemove).fork().get();
-                MineTweakerAPI.apply(new ActionBatchRemoveRecipe(removed.toBitSet().stream().mapToObj(recipes::get).collect(Collectors.toSet())));
-            } catch (InterruptedException | ExecutionException e) {
-                System.err.println("MineTweaker: Parallel Removal failed. Falling back to sequential remove");
-                e.printStackTrace();
-                // try it sequentially
-                recipesToRemove.forEach(ActionBaseRemoveRecipes::apply);
-            }
+        } else try {
+            ThreadSafeBitSet removed = new ThreadSafeBitSet();
+            new FindRecipeToRemoveTask(removed, recipesToRemove).fork().get();
+            MineTweakerAPI.apply(
+                    new ActionBatchRemoveRecipe(
+                            removed.toBitSet().stream().mapToObj(recipes::get).collect(Collectors.toSet())));
+        } catch (InterruptedException | ExecutionException e) {
+            System.err.println("MineTweaker: Parallel Removal failed. Falling back to sequential remove");
+            e.printStackTrace();
+            // try it sequentially
+            recipesToRemove.forEach(ActionBaseRemoveRecipes::apply);
+        }
         MCRecipeManager.recipesToAdd.forEach(MineTweakerAPI::apply);
 
         actionRemoveRecipesNoIngredients.clearOutputs();
@@ -730,19 +745,22 @@ public final class MCRecipeManager implements IRecipeManager {
     }
 
     private static int getCommonPoolParallelism() {
-        return Integer.getInteger("java.util.concurrent.ForkJoinPool.common.parallelism", Runtime.getRuntime().availableProcessors() - 1);
+        return Integer.getInteger(
+                "java.util.concurrent.ForkJoinPool.common.parallelism",
+                Runtime.getRuntime().availableProcessors() - 1);
     }
 
-    public static class HandleLateAdditionsAndRemovals implements IEventHandler<MineTweakerImplementationAPI.ReloadEvent>
-    {
+    public static class HandleLateAdditionsAndRemovals
+            implements IEventHandler<MineTweakerImplementationAPI.ReloadEvent> {
+
         @Override
-        public void handle(MineTweakerImplementationAPI.ReloadEvent event)
-        {
+        public void handle(MineTweakerImplementationAPI.ReloadEvent event) {
             MCRecipeManager.applyAdditionsAndRemovals();
         }
     }
 
     private class ContainerVirtual extends Container {
+
         @Override
         public boolean canInteractWith(EntityPlayer var1) {
             return false;
@@ -777,9 +795,12 @@ public final class MCRecipeManager implements IRecipeManager {
                     }
                 }
             } else {
-                FindRecipeToRemoveTask left = new FindRecipeToRemoveTask(removed, workList.subList(0, workList.size() / 2));
+                FindRecipeToRemoveTask left = new FindRecipeToRemoveTask(
+                        removed,
+                        workList.subList(0, workList.size() / 2));
                 left.fork();
-                new FindRecipeToRemoveTask(removed, workList.subList(workList.size() / 2, workList.size())).fork().join();
+                new FindRecipeToRemoveTask(removed, workList.subList(workList.size() / 2, workList.size())).fork()
+                        .join();
                 left.join();
             }
         }

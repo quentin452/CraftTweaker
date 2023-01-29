@@ -1,13 +1,13 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this license header, choose License Headers in Project Properties. To change this template file, choose
+ * Tools | Templates and open the template in the editor.
  */
 
 package minetweaker.mc1710.vanilla;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.IIngredient;
@@ -16,6 +16,7 @@ import minetweaker.api.item.WeightedItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.vanilla.ISeedRegistry;
 import minetweaker.mc1710.util.MineTweakerHacks;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandom;
 
@@ -24,126 +25,129 @@ import net.minecraft.util.WeightedRandom;
  * @author Stan
  */
 public class MCSeedRegistry implements ISeedRegistry {
-	private static final List SEEDS = MineTweakerHacks.getSeeds();
 
-	@Override
-	public void addSeed(WeightedItemStack item) {
-		MineTweakerAPI.apply(new AddSeedAction(item));
-	}
+    private static final List SEEDS = MineTweakerHacks.getSeeds();
 
-	@Override
-	public void removeSeed(IIngredient pattern) {
-		MineTweakerAPI.apply(new RemoveSeedAction(pattern));
-	}
+    @Override
+    public void addSeed(WeightedItemStack item) {
+        MineTweakerAPI.apply(new AddSeedAction(item));
+    }
 
-	@Override
-	public List<WeightedItemStack> getSeeds() {
-		List<? extends WeightedRandom.Item> entries = (List<? extends WeightedRandom.Item>) SEEDS;
+    @Override
+    public void removeSeed(IIngredient pattern) {
+        MineTweakerAPI.apply(new RemoveSeedAction(pattern));
+    }
 
-		List<WeightedItemStack> results = new ArrayList<WeightedItemStack>();
-		for (WeightedRandom.Item entry : entries) {
-			results.add(new WeightedItemStack(
-					MineTweakerMC.getIItemStack(MineTweakerHacks.getSeedEntrySeed(entry)),
-					entry.itemWeight
-				));
-		}
-		return results;
-	}
+    @Override
+    public List<WeightedItemStack> getSeeds() {
+        List<? extends WeightedRandom.Item> entries = (List<? extends WeightedRandom.Item>) SEEDS;
 
-	// ######################
-	// ### Action classes ###
-	// ######################
+        List<WeightedItemStack> results = new ArrayList<WeightedItemStack>();
+        for (WeightedRandom.Item entry : entries) {
+            results.add(
+                    new WeightedItemStack(
+                            MineTweakerMC.getIItemStack(MineTweakerHacks.getSeedEntrySeed(entry)),
+                            entry.itemWeight));
+        }
+        return results;
+    }
 
-	private static class AddSeedAction implements IUndoableAction {
-		private final IItemStack item;
-		private final WeightedRandom.Item entry;
+    // ######################
+    // ### Action classes ###
+    // ######################
 
-		public AddSeedAction(WeightedItemStack item) {
-			this.item = item.getStack();
-			entry = MineTweakerHacks.constructSeedEntry(item);
-		}
+    private static class AddSeedAction implements IUndoableAction {
 
-		@Override
-		public void apply() {
-			SEEDS.add(entry);
-		}
+        private final IItemStack item;
+        private final WeightedRandom.Item entry;
 
-		@Override
-		public boolean canUndo() {
-			return true;
-		}
+        public AddSeedAction(WeightedItemStack item) {
+            this.item = item.getStack();
+            entry = MineTweakerHacks.constructSeedEntry(item);
+        }
 
-		@Override
-		public void undo() {
-			SEEDS.remove(entry);
-		}
+        @Override
+        public void apply() {
+            SEEDS.add(entry);
+        }
 
-		@Override
-		public String describe() {
-			return "Adding seed entry " + item;
-		}
+        @Override
+        public boolean canUndo() {
+            return true;
+        }
 
-		@Override
-		public String describeUndo() {
-			return "Removing seed entry " + item;
-		}
+        @Override
+        public void undo() {
+            SEEDS.remove(entry);
+        }
 
-		@Override
-		public Object getOverrideKey() {
-			return null;
-		}
-	}
+        @Override
+        public String describe() {
+            return "Adding seed entry " + item;
+        }
 
-	private static class RemoveSeedAction implements IUndoableAction {
-		private final IIngredient pattern;
-		private final List<Object> removed;
+        @Override
+        public String describeUndo() {
+            return "Removing seed entry " + item;
+        }
 
-		public RemoveSeedAction(IIngredient ingredient) {
-			this.pattern = ingredient;
-			removed = new ArrayList<Object>();
-		}
+        @Override
+        public Object getOverrideKey() {
+            return null;
+        }
+    }
 
-		@Override
-		public void apply() {
-			removed.clear();
+    private static class RemoveSeedAction implements IUndoableAction {
 
-			for (Object entry : SEEDS) {
-				ItemStack itemStack = MineTweakerHacks.getSeedEntrySeed(entry);
-				if (pattern.matches(MineTweakerMC.getIItemStack(itemStack))) {
-					removed.add(entry);
-				}
-			}
+        private final IIngredient pattern;
+        private final List<Object> removed;
 
-			for (Object entry : removed) {
-				SEEDS.remove(entry);
-			}
-		}
+        public RemoveSeedAction(IIngredient ingredient) {
+            this.pattern = ingredient;
+            removed = new ArrayList<Object>();
+        }
 
-		@Override
-		public boolean canUndo() {
-			return true;
-		}
+        @Override
+        public void apply() {
+            removed.clear();
 
-		@Override
-		public void undo() {
-			for (Object entry : removed) {
-				SEEDS.add(entry);
-			}
-		}
+            for (Object entry : SEEDS) {
+                ItemStack itemStack = MineTweakerHacks.getSeedEntrySeed(entry);
+                if (pattern.matches(MineTweakerMC.getIItemStack(itemStack))) {
+                    removed.add(entry);
+                }
+            }
 
-		@Override
-		public String describe() {
-			return "Removing seeds " + pattern;
-		}
+            for (Object entry : removed) {
+                SEEDS.remove(entry);
+            }
+        }
 
-		@Override
-		public String describeUndo() {
-			return "Restoring seeds " + pattern + " (" + removed.size() + " entries)";
-		}
+        @Override
+        public boolean canUndo() {
+            return true;
+        }
 
-		@Override
-		public Object getOverrideKey() {
-			return null;
-		}
-	}
+        @Override
+        public void undo() {
+            for (Object entry : removed) {
+                SEEDS.add(entry);
+            }
+        }
+
+        @Override
+        public String describe() {
+            return "Removing seeds " + pattern;
+        }
+
+        @Override
+        public String describeUndo() {
+            return "Restoring seeds " + pattern + " (" + removed.size() + " entries)";
+        }
+
+        @Override
+        public Object getOverrideKey() {
+            return null;
+        }
+    }
 }

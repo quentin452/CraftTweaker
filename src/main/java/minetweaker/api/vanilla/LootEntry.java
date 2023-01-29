@@ -40,7 +40,7 @@ public class LootEntry {
         message.append(getItem().getStack());
         message.append(" (weight ");
         message.append((int) getItem().getChance());
-        if(getMinAmount() != 0 || getMaxAmount() != 1) {
+        if (getMinAmount() != 0 || getMaxAmount() != 1) {
             message.append(", ");
             message.append(getMinAmount());
             message.append("-");

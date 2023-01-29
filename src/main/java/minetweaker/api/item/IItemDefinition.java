@@ -1,22 +1,21 @@
 package minetweaker.api.item;
 
+import java.util.List;
+
 import minetweaker.api.oredict.IOreDictEntry;
 import stanhebben.zenscript.annotations.*;
 
-import java.util.List;
-
 /**
- * Contains an item definition. Item definitions provide general information
- * about an item, such as its name and ID.
+ * Contains an item definition. Item definitions provide general information about an item, such as its name and ID.
  * <p>
- * Item definitions themselves have no localized name, as it could be different
- * for each subitem or even depend on NBT tags.
+ * Item definitions themselves have no localized name, as it could be different for each subitem or even depend on NBT
+ * tags.
  *
  * @author Stan Hebben
  */
 @ZenClass("minetweaker.item.IItemDefinition")
 public interface IItemDefinition {
-    
+
     /**
      * Gets the item ID.
      *
@@ -24,7 +23,7 @@ public interface IItemDefinition {
      */
     @ZenGetter("id")
     String getId();
-    
+
     /**
      * Gets the unlocalized item name.
      *
@@ -32,7 +31,7 @@ public interface IItemDefinition {
      */
     @ZenGetter("name")
     String getName();
-    
+
     /**
      * Makes an item stack from this definition.
      *
@@ -42,10 +41,9 @@ public interface IItemDefinition {
      */
     @ZenMethod
     IItemStack makeStack(@Optional int meta);
-    
+
     /**
-     * Returns all ore entries containing this item. Also contains ore entries
-     * that refer to a specific sub-item.
+     * Returns all ore entries containing this item. Also contains ore entries that refer to a specific sub-item.
      *
      * @return all the ore entries containing this item.
      */

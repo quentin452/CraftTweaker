@@ -9,13 +9,13 @@ import stanhebben.zenscript.annotations.*;
  */
 @ZenClass("minetweaker.recipes.ICraftingInfo")
 public interface ICraftingInfo {
-    
+
     @ZenGetter("inventory")
     ICraftingInventory getInventory();
-    
+
     @ZenGetter("player")
     IPlayer getPlayer();
-    
+
     @ZenGetter("dimension")
     IDimension getDimension();
 }

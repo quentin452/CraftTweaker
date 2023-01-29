@@ -1,13 +1,12 @@
 package minetweaker.api.data;
 
-import stanhebben.zenscript.annotations.*;
-
 import java.util.*;
 
+import stanhebben.zenscript.annotations.*;
+
 /**
- * Generic data interface. A data element may contain any kind of basic data
- * element (bool, byte, short, int, long, float, double, string, list, map, int
- * array or byte array). Used to store data with stacks, blocks, world, ...
+ * Generic data interface. A data element may contain any kind of basic data element (bool, byte, short, int, long,
+ * float, double, string, list, map, int array or byte array). Used to store data with stacks, blocks, world, ...
  *
  * @author Stan Hebben
  */
@@ -69,8 +68,7 @@ public interface IData {
     String asString();
 
     /**
-     * Attempts to convert this value to a List. Returns null if this value
-     * cannot be converted to a list.
+     * Attempts to convert this value to a List. Returns null if this value cannot be converted to a list.
      *
      * @return list data of this value, if any
      */
@@ -78,8 +76,7 @@ public interface IData {
     List<IData> asList();
 
     /**
-     * Attempts to convert this value to a Map. Returns null if this value
-     * cannot be converted to a map.
+     * Attempts to convert this value to a Map. Returns null if this value cannot be converted to a map.
      *
      * @return map data of this value, if any
      */
@@ -87,8 +84,7 @@ public interface IData {
     Map<String, IData> asMap();
 
     /**
-     * Attempts to convert this value to a byte array. Returns null if this
-     * value cannot be converted to a byte array.
+     * Attempts to convert this value to a byte array. Returns null if this value cannot be converted to a byte array.
      *
      * @return byte array data of this value, if any
      */
@@ -96,8 +92,7 @@ public interface IData {
     byte[] asByteArray();
 
     /**
-     * Attempts to convert this value to an int array. Returns null if this
-     * value cannot be converted to an int array.
+     * Attempts to convert this value to an int array. Returns null if this value cannot be converted to an int array.
      *
      * @return int array data of this value, if any
      */

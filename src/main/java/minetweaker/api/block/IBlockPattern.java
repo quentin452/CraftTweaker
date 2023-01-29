@@ -1,8 +1,8 @@
 package minetweaker.api.block;
 
-import stanhebben.zenscript.annotations.*;
-
 import java.util.List;
+
+import stanhebben.zenscript.annotations.*;
 
 /**
  * @author Stan

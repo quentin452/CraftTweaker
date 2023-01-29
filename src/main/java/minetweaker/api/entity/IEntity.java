@@ -5,9 +5,8 @@ import minetweaker.api.world.IDimension;
 import stanhebben.zenscript.annotations.*;
 
 /**
- * Entity interface. Used to obtain information about entities, and modify their
- * data. Entities are any item that is freely movable in the world, such as
- * players, monsters, items on the ground, ...
+ * Entity interface. Used to obtain information about entities, and modify their data. Entities are any item that is
+ * freely movable in the world, such as players, monsters, items on the ground, ...
  *
  * @author Stan Hebben
  */
@@ -55,8 +54,7 @@ public interface IEntity {
     Position3f getPosition();
 
     /**
-     * Sets the position of this entity. Instantly moves (teleports) the entity
-     * to that position.
+     * Sets the position of this entity. Instantly moves (teleports) the entity to that position.
      *
      * @param position entity position
      */

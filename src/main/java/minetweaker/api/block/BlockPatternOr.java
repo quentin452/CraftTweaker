@@ -1,8 +1,8 @@
 package minetweaker.api.block;
 
-import minetweaker.util.ArrayUtil;
-
 import java.util.*;
+
+import minetweaker.util.ArrayUtil;
 
 /**
  * @author Stan
@@ -16,13 +16,13 @@ public class BlockPatternOr implements IBlockPattern {
     }
 
     public BlockPatternOr(IBlockPattern a, IBlockPattern b) {
-        this.elements = new IBlockPattern[]{a, b};
+        this.elements = new IBlockPattern[] { a, b };
     }
 
     @Override
     public List<IBlock> getBlocks() {
         List<IBlock> blocks = new ArrayList<>();
-        for(IBlockPattern pattern : elements) {
+        for (IBlockPattern pattern : elements) {
             blocks.addAll(pattern.getBlocks());
         }
         return blocks;
@@ -30,9 +30,8 @@ public class BlockPatternOr implements IBlockPattern {
 
     @Override
     public boolean matches(IBlock block) {
-        for(IBlockPattern pattern : elements) {
-            if(pattern.matches(block))
-                return true;
+        for (IBlockPattern pattern : elements) {
+            if (pattern.matches(block)) return true;
         }
 
         return false;
@@ -42,8 +41,8 @@ public class BlockPatternOr implements IBlockPattern {
     public String getDisplayName() {
         StringBuilder result = new StringBuilder();
         boolean first = true;
-        for(IBlockPattern pattern : elements) {
-            if(first) {
+        for (IBlockPattern pattern : elements) {
+            if (first) {
                 first = false;
             } else {
                 result.append(" | ");

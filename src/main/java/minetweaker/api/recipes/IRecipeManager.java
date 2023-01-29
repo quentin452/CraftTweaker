@@ -1,19 +1,19 @@
 package minetweaker.api.recipes;
 
+import java.util.List;
+
 import minetweaker.api.item.*;
 import stanhebben.zenscript.annotations.*;
 
-import java.util.List;
-
 /**
- * The RecipeManager adds and removes crafting recipes. The IRecipeManager
- * instance is available through the recipes global variable.
+ * The RecipeManager adds and removes crafting recipes. The IRecipeManager instance is available through the recipes
+ * global variable.
  *
  * @author Stan Hebben
  */
 @ZenClass("minetweaker.recipes.IRecipeManager")
 public interface IRecipeManager {
-    
+
     /**
      * Returns all crafting recipes.
      *
@@ -21,7 +21,7 @@ public interface IRecipeManager {
      */
     @ZenGetter("all")
     List<ICraftingRecipe> getAll();
-    
+
     /**
      * Returns all crafting recipes resulting in the given ingredient.
      *
@@ -31,7 +31,7 @@ public interface IRecipeManager {
      */
     @ZenMethod
     List<ICraftingRecipe> getRecipesFor(IIngredient ingredient);
-    
+
     /**
      * Removes all crafting recipes crafting the specified item.
      *
@@ -52,13 +52,15 @@ public interface IRecipeManager {
      * @param function    recipe function (optional)
      */
     @ZenMethod
-    void addShaped(IItemStack output, IIngredient[][] ingredients, @Optional IRecipeFunction function, @Optional IRecipeAction action);
+    void addShaped(IItemStack output, IIngredient[][] ingredients, @Optional IRecipeFunction function,
+            @Optional IRecipeAction action);
 
     void addShaped(IItemStack output, IIngredient[][] ingredients, IRecipeFunction function);
 
     void addShaped(IItemStack output, IIngredient[][] ingredients, IRecipeAction action);
 
     void addShaped(IItemStack output, IIngredient[][] ingredients);
+
     /**
      * Adds a mirrored shaped recipe.
      *
@@ -67,13 +69,15 @@ public interface IRecipeManager {
      * @param function    recipe function (optional)
      */
     @ZenMethod
-    void addShapedMirrored(IItemStack output, IIngredient[][] ingredients, @Optional IRecipeFunction function, @Optional IRecipeAction action);
+    void addShapedMirrored(IItemStack output, IIngredient[][] ingredients, @Optional IRecipeFunction function,
+            @Optional IRecipeAction action);
 
     void addShapedMirrored(IItemStack output, IIngredient[][] ingredients, IRecipeFunction function);
 
     void addShapedMirrored(IItemStack output, IIngredient[][] ingredients, IRecipeAction action);
 
     void addShapedMirrored(IItemStack output, IIngredient[][] ingredients);
+
     /**
      * Adds a shapeless recipe.
      *
@@ -82,7 +86,8 @@ public interface IRecipeManager {
      * @param function    recipe function (optional)
      */
     @ZenMethod
-    void addShapeless(IItemStack output, IIngredient[] ingredients, @Optional IRecipeFunction function, @Optional IRecipeAction action);
+    void addShapeless(IItemStack output, IIngredient[] ingredients, @Optional IRecipeFunction function,
+            @Optional IRecipeAction action);
 
     void addShapeless(IItemStack output, IIngredient[] ingredients, IRecipeFunction function);
 
@@ -102,13 +107,13 @@ public interface IRecipeManager {
     int removeShaped(IIngredient output, @Optional IIngredient[][] ingredients);
 
     int removeShaped(IIngredient output);
+
     /**
      * Removes shapeless recipes.
      *
      * @param output      recipe output
      * @param ingredients recipe ingredients
-     * @param wildcard    if the recipe may contain other ingredients too, besides
-     *                    the ones specified
+     * @param wildcard    if the recipe may contain other ingredients too, besides the ones specified
      *
      * @return number of removed recipes
      */
@@ -122,8 +127,7 @@ public interface IRecipeManager {
     int removeShapeless(IIngredient output);
 
     /**
-     * Performs a crafting with the specified ingredients. Returns null if no
-     * crafting recipe exists.
+     * Performs a crafting with the specified ingredients. Returns null if no crafting recipe exists.
      *
      * @param contents crafting inventory contents
      *
@@ -131,5 +135,5 @@ public interface IRecipeManager {
      */
     @ZenMethod
     IItemStack craft(IItemStack[][] contents);
-    
+
 }

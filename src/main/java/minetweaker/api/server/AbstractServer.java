@@ -5,8 +5,7 @@ import minetweaker.api.event.*;
 import minetweaker.util.IEventHandler;
 
 /**
- * Abstract server implementation. Implements call of which the implementation
- * is already fixed by the API.
+ * Abstract server implementation. Implements call of which the implementation is already fixed by the API.
  *
  * @author Stan Hebben
  */

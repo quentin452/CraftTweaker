@@ -1,11 +1,11 @@
 package minetweaker.api.oredict;
 
+import java.util.*;
+
 import minetweaker.api.item.*;
 import minetweaker.api.liquid.ILiquidStack;
 import minetweaker.api.player.IPlayer;
 import minetweaker.util.ArrayUtil;
-
-import java.util.*;
 
 /**
  * @author Stan Hebben
@@ -17,7 +17,8 @@ public class IngredientOreDict implements IIngredient {
     private final IItemCondition[] conditions;
     private final IItemTransformer[] transformers;
 
-    public IngredientOreDict(IOreDictEntry entry, String mark, IItemCondition[] conditions, IItemTransformer[] transformers) {
+    public IngredientOreDict(IOreDictEntry entry, String mark, IItemCondition[] conditions,
+            IItemTransformer[] transformers) {
         this.entry = entry;
         this.mark = mark;
         this.conditions = conditions;
@@ -71,12 +72,10 @@ public class IngredientOreDict implements IIngredient {
 
     @Override
     public boolean matches(IItemStack item) {
-        if(!entry.matches(item))
-            return false;
+        if (!entry.matches(item)) return false;
 
-        for(IItemCondition condition : conditions) {
-            if(!condition.matches(item))
-                return false;
+        for (IItemCondition condition : conditions) {
+            if (!condition.matches(item)) return false;
         }
 
         return true;
@@ -84,12 +83,10 @@ public class IngredientOreDict implements IIngredient {
 
     @Override
     public boolean matchesExact(IItemStack item) {
-        if(!entry.matchesExact(item))
-            return false;
+        if (!entry.matchesExact(item)) return false;
 
-        for(IItemCondition condition : conditions) {
-            if(!condition.matches(item))
-                return false;
+        for (IItemCondition condition : conditions) {
+            if (!condition.matches(item)) return false;
         }
 
         return true;
@@ -107,7 +104,7 @@ public class IngredientOreDict implements IIngredient {
 
     @Override
     public IItemStack applyTransform(IItemStack item, IPlayer byPlayer) {
-        for(IItemTransformer transformer : transformers) {
+        for (IItemTransformer transformer : transformers) {
             item = transformer.transform(item, byPlayer);
         }
 

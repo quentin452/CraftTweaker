@@ -10,7 +10,7 @@ import stanhebben.zenscript.annotations.*;
  */
 @ZenClass("minetweaker.api.IClient")
 public interface IClient {
-    
+
     /**
      * Gets the current player.
      *
@@ -18,7 +18,7 @@ public interface IClient {
      */
     @ZenGetter("player")
     IPlayer getPlayer();
-    
+
     @ZenGetter("language")
     String getLanguage();
 }

@@ -1,13 +1,12 @@
 package minetweaker.api.liquid;
 
+import java.util.List;
+
 import minetweaker.api.item.IItemStack;
 import stanhebben.zenscript.annotations.*;
 
-import java.util.List;
-
 /**
- * Contains a liquid definition. Liquid definitions provide additional
- * information about liquids.
+ * Contains a liquid definition. Liquid definitions provide additional information about liquids.
  *
  * @author Stan Hebben
  */

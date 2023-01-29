@@ -54,7 +54,7 @@ public class DataList implements IData {
 
     @Override
     public List<IData> asList() {
-        if(immutable) {
+        if (immutable) {
             return Collections.unmodifiableList(values);
         } else {
             return values;
@@ -71,8 +71,8 @@ public class DataList implements IData {
         StringBuilder output = new StringBuilder();
         output.append('[');
         boolean first = true;
-        for(IData value : values) {
-            if(first) {
+        for (IData value : values) {
+            if (first) {
                 first = false;
             } else {
                 output.append(", ");
@@ -87,11 +87,11 @@ public class DataList implements IData {
     public byte[] asByteArray() {
         try {
             byte[] result = new byte[values.size()];
-            for(int i = 0; i < values.size(); i++) {
+            for (int i = 0; i < values.size(); i++) {
                 result[i] = values.get(i).asByte();
             }
             return result;
-        } catch(IllegalDataException ex) {
+        } catch (IllegalDataException ex) {
             return null;
         }
     }
@@ -100,11 +100,11 @@ public class DataList implements IData {
     public int[] asIntArray() {
         try {
             int[] result = new int[values.size()];
-            for(int i = 0; i < values.size(); i++) {
+            for (int i = 0; i < values.size(); i++) {
                 result[i] = values.get(i).asInt();
             }
             return result;
-        } catch(IllegalDataException ex) {
+        } catch (IllegalDataException ex) {
             return null;
         }
     }
@@ -116,7 +116,7 @@ public class DataList implements IData {
 
     @Override
     public void setAt(int i, IData value) {
-        if(immutable) {
+        if (immutable) {
             throw new UnsupportedOperationException("this list is immutable");
         } else {
             values.set(i, value);
@@ -141,23 +141,19 @@ public class DataList implements IData {
     @Override
     public boolean contains(IData data) {
         List<IData> dataValues = data.asList();
-        if(dataValues != null && containsList(dataValues))
-            return true;
+        if (dataValues != null && containsList(dataValues)) return true;
 
-        for(IData value : values) {
-            if(value.contains(data))
-                return true;
+        for (IData value : values) {
+            if (value.contains(data)) return true;
         }
 
         return false;
     }
 
     private boolean containsList(List<IData> dataValues) {
-        outer:
-        for(IData dataValue : dataValues) {
-            for(IData value : values) {
-                if(value.contains(dataValue))
-                    continue outer;
+        outer: for (IData dataValue : dataValues) {
+            for (IData value : values) {
+                if (value.contains(dataValue)) continue outer;
             }
 
             return false;
@@ -169,12 +165,10 @@ public class DataList implements IData {
     @Override
     public boolean equals(IData data) {
         List<IData> otherValues = data.asList();
-        if(otherValues.size() != values.size())
-            return false;
+        if (otherValues.size() != values.size()) return false;
 
-        for(int i = 0; i < values.size(); i++) {
-            if(!values.get(i).equals(otherValues.get(i)))
-                return false;
+        for (int i = 0; i < values.size(); i++) {
+            if (!values.get(i).equals(otherValues.get(i))) return false;
         }
 
         return true;
@@ -187,11 +181,11 @@ public class DataList implements IData {
 
     @Override
     public IData immutable() {
-        if(immutable) {
+        if (immutable) {
             return this;
         } else {
             List<IData> copy = new ArrayList<>();
-            for(IData value : values) {
+            for (IData value : values) {
                 copy.add(value.immutable());
             }
             return new DataList(copy, true);
@@ -200,8 +194,7 @@ public class DataList implements IData {
 
     @Override
     public IData update(IData data) {
-        if(immutable)
-            data = data.immutable();
+        if (immutable) data = data.immutable();
 
         List<IData> result = new ArrayList<>();
         result.addAll(values);

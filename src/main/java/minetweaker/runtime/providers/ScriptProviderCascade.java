@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this license header, choose License Headers in Project Properties. To change this template file, choose
+ * Tools | Templates and open the template in the editor.
  */
 
 package minetweaker.runtime.providers;
@@ -9,6 +8,7 @@ package minetweaker.runtime.providers;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+
 import minetweaker.runtime.IScriptIterator;
 import minetweaker.runtime.IScriptProvider;
 
@@ -17,74 +17,74 @@ import minetweaker.runtime.IScriptProvider;
  * @author Stan Hebben
  */
 public class ScriptProviderCascade implements IScriptProvider {
-	private final IScriptProvider[] providers;
 
-	public ScriptProviderCascade(IScriptProvider... providers) {
-		this.providers = providers;
-	}
+    private final IScriptProvider[] providers;
 
-	@Override
-	public Iterator<IScriptIterator> getScripts() {
-		return new MyScripterator();
-	}
+    public ScriptProviderCascade(IScriptProvider... providers) {
+        this.providers = providers;
+    }
 
-	private class MyScripterator implements Iterator<IScriptIterator> {
-		private final Set<String> executed = new HashSet<String>();
+    @Override
+    public Iterator<IScriptIterator> getScripts() {
+        return new MyScripterator();
+    }
 
-		private int currentIndex = providers.length - 1;
-		private Iterator<IScriptIterator> current;
-		private IScriptIterator currentValue;
+    private class MyScripterator implements Iterator<IScriptIterator> {
 
-		public MyScripterator() {
-			currentIndex = providers.length - 1;
-			current = providers[currentIndex].getScripts();
+        private final Set<String> executed = new HashSet<String>();
 
-			advance();
-		}
+        private int currentIndex = providers.length - 1;
+        private Iterator<IScriptIterator> current;
+        private IScriptIterator currentValue;
 
-		@Override
-		public boolean hasNext() {
-			return currentIndex >= 0;
-		}
+        public MyScripterator() {
+            currentIndex = providers.length - 1;
+            current = providers[currentIndex].getScripts();
 
-		@Override
-		public IScriptIterator next() {
-			IScriptIterator result = currentValue;
-			executed.add(result.getGroupName());
+            advance();
+        }
 
-			advance();
+        @Override
+        public boolean hasNext() {
+            return currentIndex >= 0;
+        }
 
-			return result;
-		}
+        @Override
+        public IScriptIterator next() {
+            IScriptIterator result = currentValue;
+            executed.add(result.getGroupName());
 
-		private void advance() {
-			do {
-				while (!current.hasNext()) {
-					currentIndex--;
-					if (currentIndex < 0)
-						return;
+            advance();
 
-					current = providers[currentIndex].getScripts();
-				}
-				if (currentIndex < 0)
-					break;
+            return result;
+        }
 
-				currentValue = current.next();
-			} while (executed.contains(currentValue.getGroupName()) && hasNext());
-		}
+        private void advance() {
+            do {
+                while (!current.hasNext()) {
+                    currentIndex--;
+                    if (currentIndex < 0) return;
 
-		@Override
-		public void remove() {
-			throw new UnsupportedOperationException("Not supported yet."); // To
-																			// change
-																			// body
-																			// of
-																			// generated
-																			// methods,
-																			// choose
-																			// Tools
-																			// |
-																			// Templates.
-		}
-	}
+                    current = providers[currentIndex].getScripts();
+                }
+                if (currentIndex < 0) break;
+
+                currentValue = current.next();
+            } while (executed.contains(currentValue.getGroupName()) && hasNext());
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("Not supported yet."); // To
+                                                                           // change
+                                                                           // body
+                                                                           // of
+                                                                           // generated
+                                                                           // methods,
+                                                                           // choose
+                                                                           // Tools
+                                                                           // |
+                                                                           // Templates.
+        }
+    }
 }

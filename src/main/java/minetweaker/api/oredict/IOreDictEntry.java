@@ -33,7 +33,6 @@ public interface IOreDictEntry extends IIngredient {
     @ZenMethod
     void removeItems(IItemStack[] items);
 
-
     @ZenOperator(OperatorType.CONTAINS)
     boolean contains(IItemStack item);
 

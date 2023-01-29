@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this license header, choose License Headers in Project Properties. To change this template file, choose
+ * Tools | Templates and open the template in the editor.
  */
 
 package minetweaker.runtime.providers;
@@ -15,175 +14,180 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
+
 import minetweaker.MineTweakerAPI;
-import minetweaker.util.FileUtil;
 import minetweaker.runtime.IScriptIterator;
 import minetweaker.runtime.IScriptProvider;
+import minetweaker.util.FileUtil;
 
 /**
  *
  * @author Stan
  */
 public class ScriptProviderMemory implements IScriptProvider {
-	public static byte[] collect(IScriptProvider provider) {
-		ByteArrayOutputStream output = new ByteArrayOutputStream();
-		try {
-			DeflaterOutputStream deflater = new DeflaterOutputStream(output);
-			DataOutputStream deflaterData = new DataOutputStream(deflater);
-			Set<String> executed = new HashSet<String>();
 
-			Iterator<IScriptIterator> scripts = provider.getScripts();
-			while (scripts.hasNext()) {
-				IScriptIterator script = scripts.next();
+    public static byte[] collect(IScriptProvider provider) {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        try {
+            DeflaterOutputStream deflater = new DeflaterOutputStream(output);
+            DataOutputStream deflaterData = new DataOutputStream(deflater);
+            Set<String> executed = new HashSet<String>();
 
-				if (!executed.contains(script.getGroupName())) {
-					executed.add(script.getGroupName());
+            Iterator<IScriptIterator> scripts = provider.getScripts();
+            while (scripts.hasNext()) {
+                IScriptIterator script = scripts.next();
 
-					deflaterData.writeUTF(script.getGroupName());
+                if (!executed.contains(script.getGroupName())) {
+                    executed.add(script.getGroupName());
 
-					while (script.next()) {
-						String name = script.getName();
-						byte[] data = FileUtil.read(script.open());
-						if (data.length == 0)
-							continue; // skip empty files
+                    deflaterData.writeUTF(script.getGroupName());
 
-						deflaterData.writeUTF(name);
-						deflaterData.writeInt(data.length);
-						deflaterData.write(data);
-					}
+                    while (script.next()) {
+                        String name = script.getName();
+                        byte[] data = FileUtil.read(script.open());
+                        if (data.length == 0) continue; // skip empty files
 
-					deflaterData.writeUTF("");
-				}
-			}
+                        deflaterData.writeUTF(name);
+                        deflaterData.writeInt(data.length);
+                        deflaterData.write(data);
+                    }
 
-			deflaterData.writeUTF("");
+                    deflaterData.writeUTF("");
+                }
+            }
 
-			deflater.close();
-		} catch (IOException ex) {
-			MineTweakerAPI.logError("Could not collect scripts: " + ex.getMessage());
-		}
-		return output.toByteArray();
-	}
+            deflaterData.writeUTF("");
 
-	private final Map<String, MemoryModule> modules;
+            deflater.close();
+        } catch (IOException ex) {
+            MineTweakerAPI.logError("Could not collect scripts: " + ex.getMessage());
+        }
+        return output.toByteArray();
+    }
 
-	public ScriptProviderMemory(byte[] scripts) {
-		modules = new TreeMap<String, MemoryModule>();
+    private final Map<String, MemoryModule> modules;
 
-		try {
-			InflaterInputStream inflater = new InflaterInputStream(new ByteArrayInputStream(scripts));
-			DataInputStream inflaterData = new DataInputStream(inflater);
+    public ScriptProviderMemory(byte[] scripts) {
+        modules = new TreeMap<String, MemoryModule>();
 
-			String moduleName = inflaterData.readUTF();
-			while (moduleName.length() > 0) {
-				List<MemoryFile> files = new ArrayList<MemoryFile>();
+        try {
+            InflaterInputStream inflater = new InflaterInputStream(new ByteArrayInputStream(scripts));
+            DataInputStream inflaterData = new DataInputStream(inflater);
 
-				String fileName = inflaterData.readUTF();
-				while (fileName.length() > 0) {
-					byte[] data = new byte[inflaterData.readInt()];
-					inflaterData.readFully(data);
-					files.add(new MemoryFile(fileName, data));
+            String moduleName = inflaterData.readUTF();
+            while (moduleName.length() > 0) {
+                List<MemoryFile> files = new ArrayList<MemoryFile>();
 
-					fileName = inflaterData.readUTF();
-				}
-				modules.put(moduleName, new MemoryModule(moduleName, files));
+                String fileName = inflaterData.readUTF();
+                while (fileName.length() > 0) {
+                    byte[] data = new byte[inflaterData.readInt()];
+                    inflaterData.readFully(data);
+                    files.add(new MemoryFile(fileName, data));
 
-				moduleName = inflaterData.readUTF();
-			}
+                    fileName = inflaterData.readUTF();
+                }
+                modules.put(moduleName, new MemoryModule(moduleName, files));
 
-			inflaterData.close();
-		} catch (IOException ex) {
-			MineTweakerAPI.logError("Could not load transmitted scripts: " + ex.getMessage());
-		}
-	}
+                moduleName = inflaterData.readUTF();
+            }
 
-	@Override
-	public Iterator<IScriptIterator> getScripts() {
-		return new ProviderIterator();
-	}
+            inflaterData.close();
+        } catch (IOException ex) {
+            MineTweakerAPI.logError("Could not load transmitted scripts: " + ex.getMessage());
+        }
+    }
 
-	private class ProviderIterator implements Iterator<IScriptIterator> {
-		private final Iterator<MemoryModule> baseIterator = modules.values().iterator();
+    @Override
+    public Iterator<IScriptIterator> getScripts() {
+        return new ProviderIterator();
+    }
 
-		@Override
-		public boolean hasNext() {
-			return baseIterator.hasNext();
-		}
+    private class ProviderIterator implements Iterator<IScriptIterator> {
 
-		@Override
-		public IScriptIterator next() {
-			return new ScriptIterator(baseIterator.next());
-		}
+        private final Iterator<MemoryModule> baseIterator = modules.values().iterator();
 
-		@Override
-		public void remove() {
-			throw new UnsupportedOperationException("Not supported yet."); // To
-																			// change
-																			// body
-																			// of
-																			// generated
-																			// methods,
-																			// choose
-																			// Tools
-																			// |
-																			// Templates.
-		}
-	}
+        @Override
+        public boolean hasNext() {
+            return baseIterator.hasNext();
+        }
 
-	private class ScriptIterator implements IScriptIterator {
-		private final MemoryModule module;
-		private final Iterator<MemoryFile> files;
-		private MemoryFile current;
+        @Override
+        public IScriptIterator next() {
+            return new ScriptIterator(baseIterator.next());
+        }
 
-		public ScriptIterator(MemoryModule module) {
-			this.module = module;
-			files = module.data.iterator();
-			current = null;
-		}
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("Not supported yet."); // To
+                                                                           // change
+                                                                           // body
+                                                                           // of
+                                                                           // generated
+                                                                           // methods,
+                                                                           // choose
+                                                                           // Tools
+                                                                           // |
+                                                                           // Templates.
+        }
+    }
 
-		@Override
-		public String getGroupName() {
-			return module.name;
-		}
+    private class ScriptIterator implements IScriptIterator {
 
-		@Override
-		public boolean next() {
-			if (files.hasNext()) {
-				current = files.next();
-				return true;
-			} else {
-				return false;
-			}
-		}
+        private final MemoryModule module;
+        private final Iterator<MemoryFile> files;
+        private MemoryFile current;
 
-		@Override
-		public String getName() {
-			return current.name;
-		}
+        public ScriptIterator(MemoryModule module) {
+            this.module = module;
+            files = module.data.iterator();
+            current = null;
+        }
 
-		@Override
-		public InputStream open() throws IOException {
-			return new ByteArrayInputStream(current.data);
-		}
-	}
+        @Override
+        public String getGroupName() {
+            return module.name;
+        }
 
-	private class MemoryModule {
-		private final String name;
-		private final List<MemoryFile> data;
+        @Override
+        public boolean next() {
+            if (files.hasNext()) {
+                current = files.next();
+                return true;
+            } else {
+                return false;
+            }
+        }
 
-		public MemoryModule(String name, List<MemoryFile> data) {
-			this.name = name;
-			this.data = data;
-		}
-	}
+        @Override
+        public String getName() {
+            return current.name;
+        }
 
-	private class MemoryFile {
-		private final String name;
-		private final byte[] data;
+        @Override
+        public InputStream open() throws IOException {
+            return new ByteArrayInputStream(current.data);
+        }
+    }
 
-		public MemoryFile(String name, byte[] data) {
-			this.name = name;
-			this.data = data;
-		}
-	}
+    private class MemoryModule {
+
+        private final String name;
+        private final List<MemoryFile> data;
+
+        public MemoryModule(String name, List<MemoryFile> data) {
+            this.name = name;
+            this.data = data;
+        }
+    }
+
+    private class MemoryFile {
+
+        private final String name;
+        private final byte[] data;
+
+        public MemoryFile(String name, byte[] data) {
+            this.name = name;
+            this.data = data;
+        }
+    }
 }

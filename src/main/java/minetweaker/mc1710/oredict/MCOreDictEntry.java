@@ -1,10 +1,16 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this license header, choose License Headers in Project Properties. To change this template file, choose
+ * Tools | Templates and open the template in the editor.
  */
 
 package minetweaker.mc1710.oredict;
+
+import static minetweaker.api.minecraft.MineTweakerMC.getIItemStackWildcardSize;
+import static minetweaker.api.minecraft.MineTweakerMC.getItemStack;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
@@ -15,20 +21,15 @@ import minetweaker.api.oredict.IngredientOreDict;
 import minetweaker.api.player.IPlayer;
 import minetweaker.mc1710.util.MineTweakerHacks;
 import minetweaker.util.ArrayUtil;
+
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import static minetweaker.api.minecraft.MineTweakerMC.getIItemStackWildcardSize;
-import static minetweaker.api.minecraft.MineTweakerMC.getItemStack;
 
 /**
  * @author Stan
  */
 public class MCOreDictEntry implements IOreDictEntry {
+
     private static final List<ArrayList<ItemStack>> OREDICT_CONTENTS = MineTweakerHacks.getOreIdStacks();
     private static final List<ArrayList<ItemStack>> OREDICT_CONTENTS_UN = MineTweakerHacks.getOreIdStacksUn();
 
@@ -175,12 +176,12 @@ public class MCOreDictEntry implements IOreDictEntry {
 
     @Override
     public IIngredient transform(IItemTransformer transformer) {
-        return new IngredientOreDict(this, null, ArrayUtil.EMPTY_CONDITIONS, new IItemTransformer[]{transformer});
+        return new IngredientOreDict(this, null, ArrayUtil.EMPTY_CONDITIONS, new IItemTransformer[] { transformer });
     }
 
     @Override
     public IIngredient only(IItemCondition condition) {
-        return new IngredientOreDict(this, null, new IItemCondition[]{condition}, ArrayUtil.EMPTY_TRANSFORMERS);
+        return new IngredientOreDict(this, null, new IItemCondition[] { condition }, ArrayUtil.EMPTY_TRANSFORMERS);
     }
 
     @Override
@@ -212,8 +213,7 @@ public class MCOreDictEntry implements IOreDictEntry {
     public boolean contains(IIngredient ingredient) {
         List<IItemStack> items = ingredient.getItems();
         for (IItemStack item : items) {
-            if (!matches(item))
-                return false;
+            if (!matches(item)) return false;
         }
 
         return true;
@@ -250,8 +250,7 @@ public class MCOreDictEntry implements IOreDictEntry {
 
     @Override
     public boolean equals(Object other) {
-        if (!(other instanceof MCOreDictEntry))
-            return false;
+        if (!(other instanceof MCOreDictEntry)) return false;
         return ((MCOreDictEntry) other).id == id;
     }
 
@@ -260,6 +259,7 @@ public class MCOreDictEntry implements IOreDictEntry {
     // ######################
 
     private static class ActionAddItem implements IUndoableAction {
+
         private final Integer id;
         private final ItemStack item;
 
@@ -300,6 +300,7 @@ public class MCOreDictEntry implements IOreDictEntry {
     }
 
     private static class ActionMirror implements IUndoableAction {
+
         private final Integer idTarget;
         private final Integer idSource;
 
@@ -338,7 +339,9 @@ public class MCOreDictEntry implements IOreDictEntry {
 
         @Override
         public String describeUndo() {
-            return "Undoing mirror of " + OreDictionary.getOreName(idSource) + " to " + OreDictionary.getOreName(idTarget);
+            return "Undoing mirror of " + OreDictionary.getOreName(idSource)
+                    + " to "
+                    + OreDictionary.getOreName(idTarget);
         }
 
         @Override
@@ -348,6 +351,7 @@ public class MCOreDictEntry implements IOreDictEntry {
     }
 
     private static class ActionRemoveItem implements IUndoableAction {
+
         private final Integer id;
         private final ItemStack item;
 
@@ -388,6 +392,7 @@ public class MCOreDictEntry implements IOreDictEntry {
     }
 
     private static class ActionAddAll implements IUndoableAction {
+
         private final Integer idTarget;
         private final Integer idSource;
 
@@ -417,12 +422,16 @@ public class MCOreDictEntry implements IOreDictEntry {
 
         @Override
         public String describe() {
-            return "Copying contents of ore dictionary entry " + OreDictionary.getOreName(idSource) + " to " + OreDictionary.getOreName(idTarget);
+            return "Copying contents of ore dictionary entry " + OreDictionary.getOreName(idSource)
+                    + " to "
+                    + OreDictionary.getOreName(idTarget);
         }
 
         @Override
         public String describeUndo() {
-            return "Removing contents of ore dictionary entry " + OreDictionary.getOreName(idSource) + " from " + OreDictionary.getOreName(idTarget);
+            return "Removing contents of ore dictionary entry " + OreDictionary.getOreName(idSource)
+                    + " from "
+                    + OreDictionary.getOreName(idTarget);
         }
 
         @Override

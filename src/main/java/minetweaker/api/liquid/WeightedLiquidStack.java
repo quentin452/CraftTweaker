@@ -1,12 +1,11 @@
 package minetweaker.api.liquid;
 
-import stanhebben.zenscript.annotations.*;
-
 import java.util.*;
 
+import stanhebben.zenscript.annotations.*;
+
 /**
- * Contains a weighted item stack. Weighted item stacks simply contain a stack
- * and a weight.
+ * Contains a weighted item stack. Weighted item stacks simply contain a stack and a weight.
  *
  * @author Stan Hebben
  */
@@ -15,6 +14,7 @@ public final class WeightedLiquidStack {
 
     private final ILiquidStack stack;
     private final float p;
+
     public WeightedLiquidStack(ILiquidStack stack, float p) {
         this.stack = stack;
         this.p = p;
@@ -23,8 +23,8 @@ public final class WeightedLiquidStack {
     public static List<ILiquidStack> pickRandomDrops(Random random, WeightedLiquidStack[] items) {
         ArrayList<ILiquidStack> result = new ArrayList<>();
 
-        for(WeightedLiquidStack item : items) {
-            if(random.nextFloat() <= item.getChance()) {
+        for (WeightedLiquidStack item : items) {
+            if (random.nextFloat() <= item.getChance()) {
                 result.add(item.getStack());
             }
         }
@@ -61,13 +61,14 @@ public final class WeightedLiquidStack {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj == null) {
+        if (obj == null) {
             return false;
         }
-        if(getClass() != obj.getClass()) {
+        if (getClass() != obj.getClass()) {
             return false;
         }
         final WeightedLiquidStack other = (WeightedLiquidStack) obj;
-        return !(this.stack != other.stack && (this.stack == null || !this.stack.equals(other.stack))) && Float.floatToIntBits(this.p) == Float.floatToIntBits(other.p);
+        return !(this.stack != other.stack && (this.stack == null || !this.stack.equals(other.stack)))
+                && Float.floatToIntBits(this.p) == Float.floatToIntBits(other.p);
     }
 }

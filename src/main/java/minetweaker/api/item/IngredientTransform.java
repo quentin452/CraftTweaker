@@ -3,9 +3,8 @@ package minetweaker.api.item;
 import stanhebben.zenscript.annotations.*;
 
 /**
- * Transformations can be used to modify an ingredient after it is used in a
- * crafting recipe. It could reuse the item, damage it or consume multiple
- * items.
+ * Transformations can be used to modify an ingredient after it is used in a crafting recipe. It could reuse the item,
+ * damage it or consume multiple items.
  *
  * @author Stan Hebben
  */
@@ -25,8 +24,8 @@ public class IngredientTransform {
     }
 
     /**
-     * Damages the item. Also makes the item reusable. Will damage the item for
-     * 1 point upon crafting and consume it when broken.
+     * Damages the item. Also makes the item reusable. Will damage the item for 1 point upon crafting and consume it
+     * when broken.
      *
      * @param ingredient target value
      *
@@ -36,7 +35,7 @@ public class IngredientTransform {
     public static IIngredient transformDamage(IIngredient ingredient) {
         return ingredient.transform((item, byPlayer) -> {
             int newDamage = item.getDamage() + 1;
-            if(newDamage >= item.getMaxDamage()) {
+            if (newDamage >= item.getMaxDamage()) {
                 return item.withAmount(item.getAmount()).withDamage(0);
             } else {
                 return item.withAmount(item.getAmount() + 1).withDamage(newDamage);
@@ -45,10 +44,8 @@ public class IngredientTransform {
     }
 
     /**
-     * Damages the item for a specific amount. Also makes the item reusable.
-     * Upon reaching maximum damage, the item will be consumed. Take care to set
-     * the proper condition such that an almost-broken item becomes invalid for
-     * crafting.
+     * Damages the item for a specific amount. Also makes the item reusable. Upon reaching maximum damage, the item will
+     * be consumed. Take care to set the proper condition such that an almost-broken item becomes invalid for crafting.
      *
      * @param ingredient target value
      * @param damage     damage to be applied
@@ -59,7 +56,7 @@ public class IngredientTransform {
     public static IIngredient transformDamage(IIngredient ingredient, final int damage) {
         return ingredient.transform((item, byPlayer) -> {
             int newDamage = item.getDamage() + damage;
-            if(newDamage >= item.getMaxDamage()) {
+            if (newDamage >= item.getMaxDamage()) {
                 return item.withAmount(item.getAmount()).withDamage(0);
             } else {
                 return item.withAmount(item.getAmount()).withDamage(newDamage);
@@ -68,8 +65,7 @@ public class IngredientTransform {
     }
 
     /**
-     * Causes the item to be replaced upon crafting. Can be used, for instance,
-     * to return empty bottles or buckets.
+     * Causes the item to be replaced upon crafting. Can be used, for instance, to return empty bottles or buckets.
      *
      * @param ingredient target value
      * @param withItem   replacement item
@@ -79,7 +75,7 @@ public class IngredientTransform {
     @ZenMethod
     public static IIngredient transformReplace(IIngredient ingredient, final IItemStack withItem) {
         return ingredient.transform((item, byPlayer) -> {
-            if(item.getAmount() > 1) {
+            if (item.getAmount() > 1) {
                 byPlayer.give(withItem);
                 return item;
             } else {
@@ -89,9 +85,8 @@ public class IngredientTransform {
     }
 
     /**
-     * Causes multiple items to be consumed. Take care to set a condition for a
-     * minimum stack size too, as otherwise smaller stacks would still be
-     * accepted for input.
+     * Causes multiple items to be consumed. Take care to set a condition for a minimum stack size too, as otherwise
+     * smaller stacks would still be accepted for input.
      *
      * @param ingredient target value
      * @param amount     consumption amount
@@ -116,8 +111,7 @@ public class IngredientTransform {
     }
 
     /**
-     * Gives an item back to the player. Also clears the inventory slot at that
-     * position.
+     * Gives an item back to the player. Also clears the inventory slot at that position.
      *
      * @param ingredient
      * @param givenItem
@@ -127,7 +121,7 @@ public class IngredientTransform {
     @ZenMethod
     public static IIngredient giveBack(IIngredient ingredient, @Optional final IItemStack givenItem) {
         return ingredient.transform((item, byPlayer) -> {
-            if(givenItem == null) {
+            if (givenItem == null) {
                 byPlayer.give(item.withAmount(1));
                 return item;
             } else {

@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this license header, choose License Headers in Project Properties. To change this template file, choose
+ * Tools | Templates and open the template in the editor.
  */
 
 package minetweaker.util;
@@ -14,17 +13,17 @@ import java.util.Iterator;
  * @author Stan
  */
 public class CloseablePriorityList<T> implements Iterable<T> {
+
     private CloseableEntry first;
 
     /**
-     * Adds a new item to the list. The new item will be inserted at the head of
-     * the list.
+     * Adds a new item to the list. The new item will be inserted at the head of the list.
      *
      * @param value
      * @return
      */
     public Closeable add(T value) {
-        if(first == null) {
+        if (first == null) {
             first = new CloseableEntry(value);
         } else {
             CloseableEntry entry = new CloseableEntry(value);
@@ -42,6 +41,7 @@ public class CloseablePriorityList<T> implements Iterable<T> {
     }
 
     private class MyIterator implements Iterator<T> {
+
         private CloseableEntry current = null;
 
         @Override
@@ -62,6 +62,7 @@ public class CloseablePriorityList<T> implements Iterable<T> {
     }
 
     private class CloseableEntry implements Closeable {
+
         private final T value;
         private CloseableEntry next;
         private CloseableEntry prev;
@@ -72,10 +73,10 @@ public class CloseablePriorityList<T> implements Iterable<T> {
 
         @Override
         public void close() throws IOException {
-            if(next != null) {
+            if (next != null) {
                 next.prev = prev;
             }
-            if(prev == null) {
+            if (prev == null) {
                 first = next;
             } else {
                 prev.next = next;

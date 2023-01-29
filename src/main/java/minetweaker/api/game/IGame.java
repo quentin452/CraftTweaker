@@ -1,13 +1,13 @@
 package minetweaker.api.game;
 
+import java.util.List;
+
 import minetweaker.api.block.IBlockDefinition;
 import minetweaker.api.entity.IEntityDefinition;
 import minetweaker.api.item.IItemDefinition;
 import minetweaker.api.liquid.ILiquidDefinition;
 import minetweaker.api.world.IBiome;
 import stanhebben.zenscript.annotations.*;
-
-import java.util.List;
 
 /**
  * Game interface. Used to obtain general game information.
@@ -16,7 +16,7 @@ import java.util.List;
  */
 @ZenClass("minetweaker.game.IGame")
 public interface IGame {
-    
+
     /**
      * Retrieves the item definitions in this game.
      *
@@ -24,7 +24,7 @@ public interface IGame {
      */
     @ZenGetter("items")
     List<IItemDefinition> getItems();
-    
+
     /**
      * Retrieves the block definitions in this game.
      *
@@ -32,7 +32,7 @@ public interface IGame {
      */
     @ZenGetter("blocks")
     List<IBlockDefinition> getBlocks();
-    
+
     /**
      * Retrieves the liquids in this game.
      *
@@ -40,7 +40,7 @@ public interface IGame {
      */
     @ZenGetter("liquids")
     List<ILiquidDefinition> getLiquids();
-    
+
     /**
      * Retrieves the biomes in this game.
      *
@@ -48,7 +48,7 @@ public interface IGame {
      */
     @ZenGetter("biomes")
     List<IBiome> getBiomes();
-    
+
     /**
      * Retrieves the entities in this game.
      *
@@ -56,10 +56,10 @@ public interface IGame {
      */
     @ZenGetter("entities")
     List<IEntityDefinition> getEntities();
-    
+
     @ZenMethod()
     IEntityDefinition getEntity(String entityName);
-    
+
     /**
      * Sets a localization value.
      *
@@ -68,7 +68,7 @@ public interface IGame {
      */
     @ZenMethod
     void setLocalization(String key, String value);
-    
+
     /**
      * Sets a localization value.
      *
@@ -78,7 +78,7 @@ public interface IGame {
      */
     @ZenMethod
     void setLocalization(String lang, String key, String value);
-    
+
     /**
      * Gets a localized string.
      *
@@ -88,7 +88,7 @@ public interface IGame {
      */
     @ZenMethod
     String localize(String key);
-    
+
     /**
      * Gets a localized string.
      *
@@ -99,16 +99,15 @@ public interface IGame {
      */
     @ZenMethod
     String localize(String key, String lang);
-    
+
     /**
      * Lock the game and disable reload. Recommended for distributed versions.
      * <p>
-     * Once locked, reload cannot be unlocked - a game restart is required to
-     * alter the scripts.
+     * Once locked, reload cannot be unlocked - a game restart is required to alter the scripts.
      */
     @ZenMethod
     void lock();
-    
+
     /**
      * Returns the lock state. True if locked.
      *
@@ -116,7 +115,7 @@ public interface IGame {
      */
     @ZenGetter("locked")
     boolean isLocked();
-    
+
     /**
      * Signals a modified script while in locked mode.
      */

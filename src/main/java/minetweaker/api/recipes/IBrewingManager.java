@@ -1,19 +1,19 @@
 package minetweaker.api.recipes;
 
+import java.util.List;
+
 import minetweaker.api.item.IItemStack;
 import stanhebben.zenscript.annotations.*;
 
-import java.util.List;
-
 /**
- * The BrewingManager adds and removes brewing recipes. The IBrewingManager
- * instance is available through the recipes global variable.
+ * The BrewingManager adds and removes brewing recipes. The IBrewingManager instance is available through the recipes
+ * global variable.
  *
  * @author Jared
  */
 @ZenClass("minetweaker.recipes.IBrewingManager")
 public interface IBrewingManager {
-    
+
     /**
      * Returns all crafting recipes.
      *
@@ -21,7 +21,7 @@ public interface IBrewingManager {
      */
     @ZenGetter("all")
     List<IBrewingRecipe> getAll();
-    
+
     /**
      * Removes a brewing recipe from the specified item.
      *
@@ -29,7 +29,7 @@ public interface IBrewingManager {
      */
     @ZenMethod
     void remove(IItemStack output);
-    
+
     /**
      * Adds a recipe.
      *
@@ -39,7 +39,7 @@ public interface IBrewingManager {
      */
     @ZenMethod
     void add(IItemStack output, IItemStack ingredient, IItemStack input);
-    
+
     /**
      * Removes recipes.
      *
@@ -50,5 +50,5 @@ public interface IBrewingManager {
      */
     @ZenMethod
     int remove(IItemStack output, IItemStack ingredients);
-    
+
 }

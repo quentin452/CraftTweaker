@@ -1,9 +1,9 @@
 package minetweaker.api.logger;
 
+import java.util.*;
+
 import minetweaker.api.player.IPlayer;
 import minetweaker.runtime.ILogger;
-
-import java.util.*;
 
 /**
  * @author Stan
@@ -25,7 +25,7 @@ public class MTLogger implements ILogger {
     public void addPlayer(IPlayer player) {
         players.add(player);
 
-        if(!unprocessed.isEmpty()) {
+        if (!unprocessed.isEmpty()) {
             unprocessed.forEach(player::sendChat);
         }
     }
@@ -40,30 +40,30 @@ public class MTLogger implements ILogger {
 
     @Override
     public void logCommand(String message) {
-        for(ILogger logger : loggers) {
+        for (ILogger logger : loggers) {
             logger.logCommand(message);
         }
     }
 
     @Override
     public void logInfo(String message) {
-        for(ILogger logger : loggers) {
+        for (ILogger logger : loggers) {
             logger.logInfo(message);
         }
     }
 
     @Override
     public void logWarning(String message) {
-        for(ILogger logger : loggers) {
+        for (ILogger logger : loggers) {
             logger.logWarning(message);
         }
 
         String message2 = "WARNING: " + message;
 
-        if(players.isEmpty()) {
+        if (players.isEmpty()) {
             unprocessed.add(message2);
         } else {
-            for(IPlayer player : players) {
+            for (IPlayer player : players) {
                 player.sendChat(message2);
             }
         }
@@ -76,16 +76,16 @@ public class MTLogger implements ILogger {
 
     @Override
     public void logError(String message, Throwable exception) {
-        for(ILogger logger : loggers) {
+        for (ILogger logger : loggers) {
             logger.logError(message, exception);
         }
 
         String message2 = "ERROR: " + message;
 
-        if(players.isEmpty()) {
+        if (players.isEmpty()) {
             unprocessed.add(message2);
         } else {
-            for(IPlayer player : players) {
+            for (IPlayer player : players) {
                 player.sendChat(message2);
             }
         }

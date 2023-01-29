@@ -1,10 +1,10 @@
 package minetweaker.api.item;
 
+import java.util.List;
+
 import minetweaker.api.liquid.ILiquidStack;
 import minetweaker.api.player.IPlayer;
 import minetweaker.util.ArrayUtil;
-
-import java.util.List;
 
 /**
  * Represents the wildcard ingredient (<*>).
@@ -18,8 +18,7 @@ public class IngredientAny implements IIngredient {
     public static Object INTERNAL_ANY = null; // platforms supporting an "any"
     // item should fill it here
 
-    private IngredientAny() {
-    }
+    private IngredientAny() {}
 
     @Override
     public String getMark() {
@@ -48,12 +47,12 @@ public class IngredientAny implements IIngredient {
 
     @Override
     public IIngredient transform(IItemTransformer transformer) {
-        return new IngredientAnyAdvanced(null, ArrayUtil.EMPTY_CONDITIONS, new IItemTransformer[]{transformer});
+        return new IngredientAnyAdvanced(null, ArrayUtil.EMPTY_CONDITIONS, new IItemTransformer[] { transformer });
     }
 
     @Override
     public IIngredient only(IItemCondition condition) {
-        return new IngredientAnyAdvanced(null, new IItemCondition[]{condition}, ArrayUtil.EMPTY_TRANSFORMERS);
+        return new IngredientAnyAdvanced(null, new IItemCondition[] { condition }, ArrayUtil.EMPTY_TRANSFORMERS);
     }
 
     @Override
@@ -75,7 +74,6 @@ public class IngredientAny implements IIngredient {
     public boolean matchesExact(IItemStack item) {
         return true;
     }
-
 
     @Override
     public boolean matches(ILiquidStack liquid) {

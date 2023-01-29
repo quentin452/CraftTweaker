@@ -1,13 +1,12 @@
 package minetweaker.api.item;
 
+import java.util.*;
+
 import minetweaker.api.liquid.ILiquidStack;
 import minetweaker.api.player.IPlayer;
 
-import java.util.*;
-
 /**
- * Contains an ingredient stack. Is an ingredient with a specific stack size
- * assigned to it.
+ * Contains an ingredient stack. Is an ingredient with a specific stack size assigned to it.
  *
  * @author Stan Hebben
  */
@@ -110,7 +109,7 @@ public class IngredientStack implements IIngredient {
         String s = "(Ingredients) ";
         List<String> names = new ArrayList<>();
 
-        for(IItemStack st : ingredient.getItems()) {
+        for (IItemStack st : ingredient.getItems()) {
             names.add(st.getName());
         }
         s += String.join(",", names);

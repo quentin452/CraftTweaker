@@ -87,7 +87,7 @@ public class DataString implements IData {
 
     @Override
     public IData memberGet(String name) {
-        if(name.equals("length")) {
+        if (name.equals("length")) {
             return new DataInt(value.length());
         } else {
             throw new UnsupportedOperationException("no such member: " + name);

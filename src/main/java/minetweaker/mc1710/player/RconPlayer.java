@@ -5,6 +5,7 @@ import minetweaker.api.chat.IChatMessage;
 import minetweaker.api.data.IData;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.player.IPlayer;
+
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
@@ -14,6 +15,7 @@ import net.minecraft.util.IChatComponent;
  * @author Jared
  */
 public class RconPlayer implements IPlayer {
+
     private final ICommandSender sender;
 
     public RconPlayer(ICommandSender sender) {
@@ -110,17 +112,14 @@ public class RconPlayer implements IPlayer {
     }
 
     @Override
-    public void openBrowser(String url) {
-    }
+    public void openBrowser(String url) {}
 
     @Override
-    public void copyToClipboard(String value) {
-    }
+    public void copyToClipboard(String value) {}
 
     @Override
     public boolean equals(Object other) {
-        if (other.getClass() != this.getClass())
-            return false;
+        if (other.getClass() != this.getClass()) return false;
 
         return ((RconPlayer) other).sender == sender;
     }
@@ -133,6 +132,5 @@ public class RconPlayer implements IPlayer {
     }
 
     @Override
-    public void give(IItemStack stack) {
-    }
+    public void give(IItemStack stack) {}
 }
