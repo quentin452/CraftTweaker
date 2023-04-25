@@ -1,5 +1,5 @@
 dependencies {
-    shadowImplementation("com.github.GTNewHorizons:ZenScript:1.0.0-GTNH")
+    shadowImplementation("com.github.GTNewHorizons:ZenScript:1.0.1-GTNH")
     implementation("net.industrial-craft:industrialcraft-2:2.2.828-experimental:dev")
-    implementation("com.github.GTNewHorizons:NotEnoughItems:2.3.23-GTNH:dev")
+    implementation("com.github.GTNewHorizons:NotEnoughItems:2.3.45-GTNH:dev")
 }
