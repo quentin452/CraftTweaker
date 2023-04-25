@@ -10,11 +10,11 @@ import static minetweaker.api.minecraft.MineTweakerMC.getOreDict;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraftforge.oredict.OreDictionary;
+
 import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.oredict.IOreDict;
 import minetweaker.api.oredict.IOreDictEntry;
-
-import net.minecraftforge.oredict.OreDictionary;
 
 /**
  *

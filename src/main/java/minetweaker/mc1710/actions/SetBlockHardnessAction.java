@@ -5,11 +5,11 @@
 
 package minetweaker.mc1710.actions;
 
-import minetweaker.IUndoableAction;
-import minetweaker.MineTweakerAPI;
-
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+
+import minetweaker.IUndoableAction;
+import minetweaker.MineTweakerAPI;
 
 /**
  *

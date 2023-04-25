@@ -7,15 +7,6 @@ package minetweaker.mc1710;
 
 import java.util.*;
 
-import minetweaker.*;
-import minetweaker.api.entity.*;
-import minetweaker.api.formatting.IFormattedText;
-import minetweaker.api.item.IItemStack;
-import minetweaker.api.minecraft.MineTweakerMC;
-import minetweaker.api.tooltip.IngredientTooltips;
-import minetweaker.mc1710.formatting.IMCFormattedString;
-import minetweaker.mc1710.item.*;
-
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.entity.*;
 import net.minecraft.entity.item.*;
@@ -26,10 +17,18 @@ import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
-import stanhebben.zenscript.value.*;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import minetweaker.*;
+import minetweaker.api.entity.*;
+import minetweaker.api.formatting.IFormattedText;
+import minetweaker.api.item.IItemStack;
+import minetweaker.api.minecraft.MineTweakerMC;
+import minetweaker.api.tooltip.IngredientTooltips;
+import minetweaker.mc1710.formatting.IMCFormattedString;
+import minetweaker.mc1710.item.*;
+import stanhebben.zenscript.value.*;
 
 /**
  * @author Stan

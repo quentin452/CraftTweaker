@@ -5,10 +5,10 @@
 
 package minetweaker.mc1710.chat;
 
-import minetweaker.api.chat.IChatMessage;
-
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
+
+import minetweaker.api.chat.IChatMessage;
 
 /**
  *

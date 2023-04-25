@@ -8,15 +8,15 @@ package minetweaker.mc1710.block;
 import java.util.Collections;
 import java.util.List;
 
+import net.minecraft.block.Block;
+import net.minecraftforge.oredict.OreDictionary;
+
 import minetweaker.api.block.BlockPatternOr;
 import minetweaker.api.block.IBlock;
 import minetweaker.api.block.IBlockDefinition;
 import minetweaker.api.block.IBlockPattern;
 import minetweaker.api.data.IData;
 import minetweaker.api.minecraft.MineTweakerMC;
-
-import net.minecraft.block.Block;
-import net.minecraftforge.oredict.OreDictionary;
 
 /**
  *

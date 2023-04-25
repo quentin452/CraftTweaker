@@ -5,13 +5,12 @@
 
 package minetweaker.mc1710.client;
 
-import minetweaker.api.client.IClient;
-import minetweaker.api.minecraft.MineTweakerMC;
-import minetweaker.api.player.IPlayer;
-
 import net.minecraft.client.Minecraft;
 
 import cpw.mods.fml.client.FMLClientHandler;
+import minetweaker.api.client.IClient;
+import minetweaker.api.minecraft.MineTweakerMC;
+import minetweaker.api.player.IPlayer;
 
 /**
  *

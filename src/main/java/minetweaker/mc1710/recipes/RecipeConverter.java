@@ -10,6 +10,13 @@ import static minetweaker.api.minecraft.MineTweakerMC.getItemStack;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.ShapedRecipes;
+import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
+
 import minetweaker.api.item.IIngredient;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
@@ -17,13 +24,6 @@ import minetweaker.api.recipes.ICraftingRecipe;
 import minetweaker.api.recipes.ShapedRecipe;
 import minetweaker.api.recipes.ShapelessRecipe;
 import minetweaker.api.recipes.UnknownRecipe;
-
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraft.item.crafting.ShapelessRecipes;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 /**
  *

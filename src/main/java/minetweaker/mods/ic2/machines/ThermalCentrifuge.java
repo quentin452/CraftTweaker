@@ -4,19 +4,18 @@ import static minetweaker.api.minecraft.MineTweakerMC.getIItemStacks;
 import static minetweaker.api.minecraft.MineTweakerMC.getItemStack;
 import static minetweaker.api.minecraft.MineTweakerMC.getItemStacks;
 
+import net.minecraft.nbt.NBTTagCompound;
+
+import ic2.api.recipe.RecipeOutput;
+import ic2.api.recipe.Recipes;
 import minetweaker.MineTweakerAPI;
 import minetweaker.annotations.ModOnly;
 import minetweaker.api.item.IIngredient;
 import minetweaker.api.item.IItemStack;
 import minetweaker.mods.ic2.IC2RecipeInput;
 import minetweaker.mods.ic2.MachineAddRecipeAction;
-
-import net.minecraft.nbt.NBTTagCompound;
-
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
-import ic2.api.recipe.RecipeOutput;
-import ic2.api.recipe.Recipes;
 
 /**
  * Provides access to the IC2 compressor recipes. Recipes can be added but not removed, due to IC2 API restrictions.

@@ -2,14 +2,13 @@ package minetweaker.mods.ic2;
 
 import java.util.Arrays;
 
-import minetweaker.MineTweakerAPI;
-import minetweaker.OneWayAction;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 import ic2.api.recipe.IMachineRecipeManager;
 import ic2.api.recipe.IMachineRecipeManagerExt;
+import minetweaker.MineTweakerAPI;
+import minetweaker.OneWayAction;
 
 /**
  *

@@ -10,10 +10,10 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import minetweaker.mc1710.MineTweakerConfig;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import minetweaker.mc1710.MineTweakerConfig;
 
 /**
  *

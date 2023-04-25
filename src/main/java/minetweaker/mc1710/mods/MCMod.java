@@ -5,8 +5,8 @@
 
 package minetweaker.mc1710.mods;
 
-import minetweaker.api.mods.IMod;
 import cpw.mods.fml.common.ModContainer;
+import minetweaker.api.mods.IMod;
 
 /**
  *

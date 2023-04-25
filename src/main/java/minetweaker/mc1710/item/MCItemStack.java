@@ -12,6 +12,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.oredict.OreDictionary;
+
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import minetweaker.MineTweakerAPI;
 import minetweaker.api.block.IBlock;
 import minetweaker.api.data.DataMap;
@@ -28,16 +37,6 @@ import minetweaker.mc1710.block.MCItemBlock;
 import minetweaker.mc1710.data.NBTConverter;
 import minetweaker.mc1710.liquid.MCLiquidStack;
 import minetweaker.util.ArrayUtil;
-
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.oredict.OreDictionary;
-
-import cpw.mods.fml.relauncher.ReflectionHelper;
 
 /**
  *

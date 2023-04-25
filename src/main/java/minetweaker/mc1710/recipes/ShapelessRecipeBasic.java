@@ -9,12 +9,12 @@ import static minetweaker.api.minecraft.MineTweakerMC.getItemStack;
 
 import java.util.Arrays;
 
-import minetweaker.api.recipes.ShapelessRecipe;
-
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.world.World;
+
+import minetweaker.api.recipes.ShapelessRecipe;
 
 /**
  *

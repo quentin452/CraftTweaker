@@ -5,9 +5,9 @@
 
 package minetweaker.mc1710.formatting;
 
-import minetweaker.api.formatting.IFormattedText;
-
 import net.minecraft.util.EnumChatFormatting;
+
+import minetweaker.api.formatting.IFormattedText;
 
 /**
  *

@@ -5,9 +5,9 @@
 
 package minetweaker.mc1710.block;
 
-import minetweaker.api.block.IBlockDefinition;
-
 import net.minecraft.block.Block;
+
+import minetweaker.api.block.IBlockDefinition;
 
 /**
  *

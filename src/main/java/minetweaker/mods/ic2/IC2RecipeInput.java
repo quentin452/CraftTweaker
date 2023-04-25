@@ -11,12 +11,11 @@ import static minetweaker.api.minecraft.MineTweakerMC.getItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-import minetweaker.api.item.IIngredient;
-import minetweaker.api.item.IItemStack;
-
 import net.minecraft.item.ItemStack;
 
 import ic2.api.recipe.IRecipeInput;
+import minetweaker.api.item.IIngredient;
+import minetweaker.api.item.IItemStack;
 
 /**
  * Wrapper class for ITweakerItemStackPatterns to IC2 recipe inputs.

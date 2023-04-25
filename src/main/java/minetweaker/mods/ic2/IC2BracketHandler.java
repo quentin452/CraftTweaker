@@ -4,15 +4,15 @@ import static minetweaker.api.minecraft.MineTweakerMC.getIItemStack;
 
 import java.util.List;
 
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
+
+import ic2.api.item.IC2Items;
 import minetweaker.IBracketHandler;
 import minetweaker.MineTweakerAPI;
 import minetweaker.annotations.BracketHandler;
 import minetweaker.annotations.ModOnly;
 import minetweaker.api.item.IItemStack;
-
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
-
 import stanhebben.zenscript.ZenTokener;
 import stanhebben.zenscript.compiler.IEnvironmentGlobal;
 import stanhebben.zenscript.expression.ExpressionCallStatic;
@@ -24,7 +24,6 @@ import stanhebben.zenscript.symbols.IZenSymbol;
 import stanhebben.zenscript.type.ZenType;
 import stanhebben.zenscript.type.natives.IJavaMethod;
 import stanhebben.zenscript.util.ZenPosition;
-import ic2.api.item.IC2Items;
 
 /**
  * Makes a ic2-item specific item syntax available in the form &lt;item-ic2:name[:meta]&gt;.

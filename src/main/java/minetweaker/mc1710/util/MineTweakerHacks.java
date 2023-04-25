@@ -15,10 +15,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import minetweaker.MineTweakerAPI;
-import minetweaker.api.item.WeightedItemStack;
-import minetweaker.api.minecraft.MineTweakerMC;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -37,7 +33,11 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import com.google.common.collect.BiMap;
+
 import cpw.mods.fml.common.registry.EntityRegistry;
+import minetweaker.MineTweakerAPI;
+import minetweaker.api.item.WeightedItemStack;
+import minetweaker.api.minecraft.MineTweakerMC;
 
 /**
  * Common class for all runtime hacks (stuff requiring reflection). It is not unexpected to have it break with new

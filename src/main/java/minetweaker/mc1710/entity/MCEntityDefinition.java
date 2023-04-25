@@ -7,10 +7,10 @@ package minetweaker.mc1710.entity;
 
 import java.util.*;
 
+import cpw.mods.fml.common.registry.EntityRegistry;
 import minetweaker.api.entity.IEntityDefinition;
 import minetweaker.api.item.*;
 import stanhebben.zenscript.value.*;
-import cpw.mods.fml.common.registry.EntityRegistry;
 
 /**
  *

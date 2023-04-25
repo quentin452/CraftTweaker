@@ -1,5 +1,12 @@
 package minetweaker.mc1710;
 
+import net.minecraft.entity.player.EntityPlayerMP;
+
+import org.lwjgl.input.Keyboard;
+
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import minetweaker.MineTweakerAPI;
 import minetweaker.MineTweakerImplementationAPI;
 import minetweaker.api.event.PlayerCraftedEvent;
@@ -11,14 +18,6 @@ import minetweaker.api.player.IPlayer;
 import minetweaker.mc1710.network.MineTweakerLoadScriptsPacket;
 import minetweaker.mc1710.recipes.MCCraftingInventory;
 import minetweaker.mc1710.recipes.MCRecipeManager;
-
-import net.minecraft.entity.player.EntityPlayerMP;
-
-import org.lwjgl.input.Keyboard;
-
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
 
 /**
  *

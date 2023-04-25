@@ -4,16 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+
 import minetweaker.IBracketHandler;
 import minetweaker.annotations.BracketHandler;
 import minetweaker.api.liquid.ILiquidStack;
 import minetweaker.mc1710.liquid.MCLiquidStack;
 import minetweaker.runtime.GlobalRegistry;
-
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
-
 import stanhebben.zenscript.compiler.IEnvironmentGlobal;
 import stanhebben.zenscript.expression.ExpressionCallStatic;
 import stanhebben.zenscript.expression.ExpressionString;

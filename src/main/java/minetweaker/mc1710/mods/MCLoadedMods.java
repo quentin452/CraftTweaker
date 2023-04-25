@@ -3,11 +3,11 @@ package minetweaker.mc1710.mods;
 import java.util.Iterator;
 import java.util.List;
 
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.ModContainer;
 import minetweaker.api.mods.ILoadedMods;
 import minetweaker.api.mods.IMod;
 import stanhebben.zenscript.util.MappingIterator;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.ModContainer;
 
 /**
  *

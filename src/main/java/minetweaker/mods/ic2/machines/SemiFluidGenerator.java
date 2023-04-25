@@ -5,16 +5,15 @@
 
 package minetweaker.mods.ic2.machines;
 
+import net.minecraftforge.fluids.FluidRegistry;
+
+import ic2.api.recipe.Recipes;
 import minetweaker.MineTweakerAPI;
 import minetweaker.OneWayAction;
 import minetweaker.annotations.ModOnly;
 import minetweaker.api.liquid.ILiquidStack;
-
-import net.minecraftforge.fluids.FluidRegistry;
-
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
-import ic2.api.recipe.Recipes;
 
 /**
  * Add a fluid to the semi-fluid generator

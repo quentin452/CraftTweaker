@@ -4,19 +4,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import net.minecraftforge.common.BiomeDictionary;
+
+import ic2.api.crops.CropCard;
+import ic2.api.crops.Crops;
 import minetweaker.MineTweakerAPI;
 import minetweaker.OneWayAction;
 import minetweaker.annotations.ModOnly;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
-
-import net.minecraftforge.common.BiomeDictionary;
-
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
-import ic2.api.crops.CropCard;
-import ic2.api.crops.Crops;
 
 @ZenClass("mods.ic2.CropsConfig")
 @ModOnly("IC2")

@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.minecraft.util.WeightedRandomChestContent;
+import net.minecraftforge.common.ChestGenHooks;
+
 import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.IIngredient;
@@ -18,9 +21,6 @@ import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.vanilla.ILootRegistry;
 import minetweaker.api.vanilla.LootEntry;
 import minetweaker.mc1710.util.MineTweakerHacks;
-
-import net.minecraft.util.WeightedRandomChestContent;
-import net.minecraftforge.common.ChestGenHooks;
 
 /**
  *

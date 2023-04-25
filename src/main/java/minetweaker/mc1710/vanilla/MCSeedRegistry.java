@@ -8,6 +8,9 @@ package minetweaker.mc1710.vanilla;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.WeightedRandom;
+
 import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.IIngredient;
@@ -16,9 +19,6 @@ import minetweaker.api.item.WeightedItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.vanilla.ISeedRegistry;
 import minetweaker.mc1710.util.MineTweakerHacks;
-
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.WeightedRandom;
 
 /**
  *

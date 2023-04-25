@@ -5,6 +5,11 @@
 
 package minetweaker.mc1710.player;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
+
 import minetweaker.MineTweakerAPI;
 import minetweaker.api.chat.IChatMessage;
 import minetweaker.api.data.IData;
@@ -16,11 +21,6 @@ import minetweaker.mc1710.MineTweakerMod;
 import minetweaker.mc1710.data.NBTConverter;
 import minetweaker.mc1710.network.MineTweakerCopyClipboardPacket;
 import minetweaker.mc1710.network.MineTweakerOpenBrowserPacket;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
 
 /**
  *

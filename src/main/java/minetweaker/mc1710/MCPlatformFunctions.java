@@ -5,14 +5,14 @@
 
 package minetweaker.mc1710;
 
+import net.minecraft.item.Item;
+
 import minetweaker.IPlatformFunctions;
 import minetweaker.api.chat.IChatMessage;
 import minetweaker.api.item.IItemDefinition;
 import minetweaker.mc1710.chat.MCChatMessage;
 import minetweaker.mc1710.item.MCItemDefinition;
 import minetweaker.mc1710.network.MineTweakerLoadScriptsPacket;
-
-import net.minecraft.item.Item;
 
 /**
  *

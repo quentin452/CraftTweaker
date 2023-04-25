@@ -2,18 +2,17 @@ package minetweaker.mods.nei;
 
 import static minetweaker.api.minecraft.MineTweakerMC.getItemStack;
 
+import net.minecraft.item.ItemStack;
+
+import codechicken.nei.api.API;
 import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
 import minetweaker.OneWayAction;
 import minetweaker.annotations.ModOnly;
 import minetweaker.api.item.IItemStack;
-
-import net.minecraft.item.ItemStack;
-
 import stanhebben.zenscript.annotations.NotNull;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
-import codechicken.nei.api.API;
 
 /**
  * MineTweaker NEI support.

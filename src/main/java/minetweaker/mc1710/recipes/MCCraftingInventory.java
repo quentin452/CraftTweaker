@@ -11,12 +11,6 @@ import static minetweaker.api.minecraft.MineTweakerMC.getItemStack;
 
 import java.util.List;
 
-import minetweaker.api.item.IItemStack;
-import minetweaker.api.player.IPlayer;
-import minetweaker.api.recipes.ICraftingInventory;
-import minetweaker.mc1710.player.MCPlayer;
-import minetweaker.mc1710.util.MineTweakerHacks;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -24,6 +18,12 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
+
+import minetweaker.api.item.IItemStack;
+import minetweaker.api.player.IPlayer;
+import minetweaker.api.recipes.ICraftingInventory;
+import minetweaker.mc1710.player.MCPlayer;
+import minetweaker.mc1710.util.MineTweakerHacks;
 
 /**
  *

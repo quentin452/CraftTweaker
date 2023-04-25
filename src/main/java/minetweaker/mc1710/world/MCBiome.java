@@ -5,9 +5,9 @@
 
 package minetweaker.mc1710.world;
 
-import minetweaker.api.world.IBiome;
-
 import net.minecraft.world.biome.BiomeGenBase;
+
+import minetweaker.api.world.IBiome;
 
 /**
  *

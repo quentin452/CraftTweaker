@@ -8,15 +8,15 @@ package minetweaker.mc1710.item;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
+
 import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.IItemDefinition;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.oredict.IOreDictEntry;
-
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 
 /**
  *

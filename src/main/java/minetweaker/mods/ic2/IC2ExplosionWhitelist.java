@@ -2,17 +2,16 @@ package minetweaker.mods.ic2;
 
 import static minetweaker.api.minecraft.MineTweakerMC.getItemStack;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
+
+import ic2.api.tile.ExplosionWhitelist;
 import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
 import minetweaker.annotations.ModOnly;
 import minetweaker.api.item.IItemStack;
-
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
-
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
-import ic2.api.tile.ExplosionWhitelist;
 
 /**
  * Manages the explosion whitelist in IC2. Blocks on this whitelist will not resist an explosion but won't be destroyed.

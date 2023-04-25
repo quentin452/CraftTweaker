@@ -7,6 +7,7 @@ package minetweaker.mods.ic2.machines;
 
 import static minetweaker.api.minecraft.MineTweakerMC.getItemStack;
 
+import ic2.api.recipe.Recipes;
 import minetweaker.MineTweakerAPI;
 import minetweaker.OneWayAction;
 import minetweaker.annotations.ModOnly;
@@ -15,7 +16,6 @@ import minetweaker.api.item.IItemStack;
 import minetweaker.mods.ic2.IC2RecipeInput;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
-import ic2.api.recipe.Recipes;
 
 /**
  *

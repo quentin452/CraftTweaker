@@ -5,11 +5,11 @@
 
 package minetweaker.mc1710.world;
 
+import net.minecraft.world.World;
+
 import minetweaker.api.block.IBlock;
 import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.world.IDimension;
-
-import net.minecraft.world.World;
 
 /**
  *

@@ -9,6 +9,19 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.RecursiveAction;
 import java.util.stream.Collectors;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.ShapedRecipes;
+import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
+
+import org.apache.commons.lang3.tuple.Pair;
+
 import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
 import minetweaker.MineTweakerImplementationAPI;
@@ -27,20 +40,6 @@ import minetweaker.mc1710.item.MCItemStack;
 import minetweaker.mc1710.util.MineTweakerHacks;
 import minetweaker.mc1710.util.ThreadSafeBitSet;
 import minetweaker.util.IEventHandler;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraft.item.crafting.ShapelessRecipes;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
-
-import org.apache.commons.lang3.tuple.Pair;
-
 import stanhebben.zenscript.annotations.Optional;
 
 /**

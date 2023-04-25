@@ -7,6 +7,10 @@ package minetweaker.mods.ic2.machines;
 
 import static minetweaker.api.minecraft.MineTweakerMC.getItemStack;
 
+import net.minecraftforge.fluids.FluidStack;
+
+import ic2.api.recipe.RecipeInputFluidContainer;
+import ic2.api.recipe.Recipes;
 import minetweaker.MineTweakerAPI;
 import minetweaker.OneWayAction;
 import minetweaker.annotations.ModOnly;
@@ -14,13 +18,8 @@ import minetweaker.api.item.IIngredient;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.liquid.ILiquidStack;
 import minetweaker.mods.ic2.IC2RecipeInput;
-
-import net.minecraftforge.fluids.FluidStack;
-
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
-import ic2.api.recipe.RecipeInputFluidContainer;
-import ic2.api.recipe.Recipes;
 
 /**
  *

@@ -7,11 +7,11 @@ package minetweaker.mc1710.data;
 
 import java.util.Map;
 
-import minetweaker.api.data.IData;
-import minetweaker.api.data.IDataConverter;
-
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+
+import minetweaker.api.data.IData;
+import minetweaker.api.data.IDataConverter;
 
 /**
  *

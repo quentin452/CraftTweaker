@@ -8,15 +8,15 @@ package minetweaker.mc1710.liquid;
 import java.util.Collections;
 import java.util.List;
 
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fluids.FluidStack;
+
 import minetweaker.api.data.IData;
 import minetweaker.api.item.*;
 import minetweaker.api.liquid.ILiquidDefinition;
 import minetweaker.api.liquid.ILiquidStack;
 import minetweaker.api.player.IPlayer;
 import minetweaker.mc1710.data.NBTConverter;
-
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fluids.FluidStack;
 
 /**
  * @author Stan

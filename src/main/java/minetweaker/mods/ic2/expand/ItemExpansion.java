@@ -3,18 +3,17 @@ package minetweaker.mods.ic2.expand;
 import static minetweaker.api.minecraft.MineTweakerMC.getIItemStack;
 import static minetweaker.api.minecraft.MineTweakerMC.getItemStack;
 
-import minetweaker.annotations.ModOnly;
-import minetweaker.api.item.IItemStack;
-
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import ic2.api.item.ElectricItem;
+import ic2.api.item.IElectricItem;
+import minetweaker.annotations.ModOnly;
+import minetweaker.api.item.IItemStack;
 import stanhebben.zenscript.annotations.Optional;
 import stanhebben.zenscript.annotations.ZenExpansion;
 import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
-import ic2.api.item.ElectricItem;
-import ic2.api.item.IElectricItem;
 
 /**
  *

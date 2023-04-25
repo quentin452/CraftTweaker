@@ -12,15 +12,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.minecraft.item.Item;
+import net.minecraftforge.oredict.OreDictionary;
+
 import minetweaker.IBracketHandler;
 import minetweaker.MineTweakerAPI;
 import minetweaker.annotations.BracketHandler;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.item.IngredientAny;
-
-import net.minecraft.item.Item;
-import net.minecraftforge.oredict.OreDictionary;
-
 import stanhebben.zenscript.ZenTokener;
 import stanhebben.zenscript.compiler.IEnvironmentGlobal;
 import stanhebben.zenscript.expression.ExpressionCallStatic;

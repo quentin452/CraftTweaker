@@ -1,10 +1,10 @@
 package minetweaker.mods.ic2.crops;
 
+import ic2.api.crops.CropCard;
 import stanhebben.zenscript.annotations.ZenCaster;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
-import ic2.api.crops.CropCard;
 
 /**
  * Read-only data accessor for crops

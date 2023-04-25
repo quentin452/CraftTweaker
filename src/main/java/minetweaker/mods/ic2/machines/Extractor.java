@@ -9,6 +9,8 @@ import static minetweaker.api.minecraft.MineTweakerMC.getIItemStack;
 import static minetweaker.api.minecraft.MineTweakerMC.getItemStack;
 import static minetweaker.api.minecraft.MineTweakerMC.getItemStacks;
 
+import ic2.api.recipe.RecipeOutput;
+import ic2.api.recipe.Recipes;
 import minetweaker.MineTweakerAPI;
 import minetweaker.annotations.ModOnly;
 import minetweaker.api.item.IIngredient;
@@ -18,8 +20,6 @@ import minetweaker.mods.ic2.MachineAddRecipeAction;
 import stanhebben.zenscript.annotations.NotNull;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
-import ic2.api.recipe.RecipeOutput;
-import ic2.api.recipe.Recipes;
 
 /**
  * Provides access to the IC2 Extractor recipes.

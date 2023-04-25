@@ -10,15 +10,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import minetweaker.MineTweakerAPI;
-import minetweaker.api.item.IItemStack;
-import minetweaker.api.minecraft.MineTweakerMC;
-
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
+import minetweaker.MineTweakerAPI;
+import minetweaker.api.item.IItemStack;
+import minetweaker.api.minecraft.MineTweakerMC;
 
 public class FuelTweaker {
 

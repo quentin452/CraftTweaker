@@ -7,12 +7,12 @@ package minetweaker.mc1710.recipes;
 
 import static minetweaker.api.minecraft.MineTweakerMC.getItemStack;
 
-import minetweaker.api.recipes.ShapelessRecipe;
-
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+
+import minetweaker.api.recipes.ShapelessRecipe;
 
 /**
  *

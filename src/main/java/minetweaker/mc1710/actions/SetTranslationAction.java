@@ -8,10 +8,10 @@ package minetweaker.mc1710.actions;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.Charset;
 
+import net.minecraft.util.StringTranslate;
+
 import minetweaker.IUndoableAction;
 import minetweaker.mc1710.util.MineTweakerHacks;
-
-import net.minecraft.util.StringTranslate;
 
 /**
  *

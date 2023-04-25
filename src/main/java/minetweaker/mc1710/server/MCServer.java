@@ -8,6 +8,16 @@ package minetweaker.mc1710.server;
 import java.util.Arrays;
 import java.util.List;
 
+import net.minecraft.command.CommandHandler;
+import net.minecraft.command.ICommand;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.command.server.CommandBlockLogic;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.rcon.RConConsoleSource;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.dedicated.DedicatedServer;
+import net.minecraft.server.management.UserListOps;
+
 import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
 import minetweaker.api.minecraft.MineTweakerMC;
@@ -18,16 +28,6 @@ import minetweaker.api.server.ICommandTabCompletion;
 import minetweaker.api.server.ICommandValidator;
 import minetweaker.mc1710.player.CommandBlockPlayer;
 import minetweaker.mc1710.player.RconPlayer;
-
-import net.minecraft.command.CommandHandler;
-import net.minecraft.command.ICommand;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.command.server.CommandBlockLogic;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.network.rcon.RConConsoleSource;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.dedicated.DedicatedServer;
-import net.minecraft.server.management.UserListOps;
 
 /**
  * @author Stan

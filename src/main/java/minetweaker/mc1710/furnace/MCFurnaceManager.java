@@ -13,6 +13,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
+
+import cpw.mods.fml.common.registry.GameRegistry;
 import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.IIngredient;
@@ -21,11 +25,6 @@ import minetweaker.api.recipes.FurnaceRecipe;
 import minetweaker.api.recipes.IFurnaceManager;
 import minetweaker.api.recipes.IFurnaceRecipe;
 import minetweaker.mc1710.item.MCItemStack;
-
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-
-import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
  * @author Stan

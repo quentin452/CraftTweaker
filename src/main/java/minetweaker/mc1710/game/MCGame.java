@@ -10,6 +10,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.item.Item;
+import net.minecraft.util.*;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+
+import com.google.common.collect.*;
+
+import cpw.mods.fml.common.registry.EntityRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
 import minetweaker.api.block.IBlockDefinition;
@@ -25,18 +36,6 @@ import minetweaker.mc1710.item.MCItemDefinition;
 import minetweaker.mc1710.liquid.MCLiquidDefinition;
 import minetweaker.mc1710.util.MineTweakerHacks;
 import minetweaker.mc1710.util.MineTweakerPlatformUtils;
-
-import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.item.Item;
-import net.minecraft.util.*;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-
-import com.google.common.collect.*;
-
-import cpw.mods.fml.common.registry.EntityRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 /**
  *

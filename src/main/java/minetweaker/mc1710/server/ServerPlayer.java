@@ -14,14 +14,14 @@ import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.minecraft.server.dedicated.DedicatedServer;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
+
 import minetweaker.api.chat.IChatMessage;
 import minetweaker.api.data.IData;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.player.IPlayer;
-
-import net.minecraft.server.dedicated.DedicatedServer;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
 
 /**
  *

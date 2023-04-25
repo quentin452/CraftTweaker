@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
+
 import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.*;
@@ -21,9 +24,6 @@ import minetweaker.api.oredict.IngredientOreDict;
 import minetweaker.api.player.IPlayer;
 import minetweaker.mc1710.util.MineTweakerHacks;
 import minetweaker.util.ArrayUtil;
-
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 
 /**
  * @author Stan
