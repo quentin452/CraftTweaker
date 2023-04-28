@@ -6,10 +6,20 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fluids.FluidStack;
+
+import org.apache.logging.log4j.LogManager;
+
+import cpw.mods.fml.common.registry.GameRegistry;
 import minetweaker.annotations.BracketHandler;
 import minetweaker.annotations.ModOnly;
 import minetweaker.api.client.IClient;
@@ -17,8 +27,13 @@ import minetweaker.api.compat.*;
 import minetweaker.api.event.IEventManager;
 import minetweaker.api.formatting.IFormatter;
 import minetweaker.api.game.IGame;
+import minetweaker.api.item.IIngredient;
+import minetweaker.api.item.IItemStack;
+import minetweaker.api.item.IngredientItem;
 import minetweaker.api.mods.ILoadedMods;
 import minetweaker.api.oredict.IOreDict;
+import minetweaker.api.oredict.IOreDictEntry;
+import minetweaker.api.oredict.IngredientOreDict;
 import minetweaker.api.recipes.IFurnaceManager;
 import minetweaker.api.recipes.IRecipeManager;
 import minetweaker.api.server.IServer;
@@ -38,17 +53,170 @@ import stanhebben.zenscript.type.natives.JavaMethod;
 
 /**
  * Provides access to the MineTweaker API.
- * 
+ *
  * An implementing platform needs to do the following: - Set a logger - Set the ore dictionary - Set the recipe manager
  * - Set the furnace manager - Set event manager - Set resource manager
- * 
+ *
  * - Register additional global symbols to the GlobalRegistry (recipes, minetweaker, oreDict, logger, as well as the
  * official set of functions) - Register native classes using the GlobalRegistry - Register bracket handlers to resolve
  * block/item/... references using the bracket syntax
- * 
+ *
  * @author Stan Hebben
  */
 public class MineTweakerAPI {
+
+    private static final org.apache.logging.log4j.Logger TRANSLATORLOGGER = LogManager
+            .getLogger("[SCRIPTS TO CODE TRANSLATOR]");
+
+    public static void info(String log) {
+        TRANSLATORLOGGER.info(log);
+    }
+
+    public static String convertStack(ItemStack stack) {
+        if (stack == null) return "null";
+        GameRegistry.UniqueIdentifier itemIdentifier = GameRegistry.findUniqueIdentifierFor(stack.getItem());
+        int meta = stack.getItemDamage();
+        int size = stack.stackSize;
+        NBTTagCompound tagCompound = stack.stackTagCompound;
+        if (tagCompound == null || tagCompound.hasNoTags()) {
+            return "getModItem(\"" + itemIdentifier.modId
+                    + "\", \""
+                    + itemIdentifier.name
+                    + "\", "
+                    + size
+                    + ", "
+                    + meta
+                    + ", missing)";
+        } else {
+            return "createItemStack(\"" + itemIdentifier.modId
+                    + "\", \""
+                    + itemIdentifier.name
+                    + "\", "
+                    + size
+                    + ", "
+                    + meta
+                    + ", "
+                    + "\""
+                    + tagCompound.toString().replace("\"", "\\\"")
+                    + "\""
+                    + ", missing)";
+        }
+    }
+
+    public static String convertStack(IIngredient ingredient) {
+        Object internal = ingredient.getInternal();
+        if (internal instanceof ItemStack) return convertStack((ItemStack) internal);
+        else return "ERRORSTACK";
+    }
+
+    public static String convertArrayInLine(Object[] arr) {
+        StringBuilder arrayString = new StringBuilder();
+        for (int i = 0, arrLength = arr.length; i < arrLength; i++) {
+            Object o = arr[i];
+            if (o instanceof String) arrayString.append("\"").append((String) o).append("\"");
+            else if (o instanceof Character) arrayString.append("'").append((char) o).append("'");
+            else if (o instanceof ItemStack) arrayString.append(convertStack((ItemStack) o));
+            else if (o instanceof IItemStack || o instanceof IngredientItem)
+                arrayString.append(convertStack((IIngredient) o));
+            else if (o instanceof IOreDictEntry)
+                arrayString.append("\"").append((String) ((IOreDictEntry) o).getInternal()).append("\"");
+            else if (o instanceof IngredientOreDict)
+                arrayString.append("\"").append((String) ((IngredientOreDict) o).getInternal()).append("\"");
+            else if (o == null) arrayString.append("null");
+            else arrayString.append(o);
+            if (i + 1 < arrLength) arrayString.append(", ");
+        }
+        return arrayString.toString();
+    }
+
+    public static String convert2DArrayInLine(Object[][] arr) {
+        StringBuilder arrayString = new StringBuilder();
+        for (int i = 0, arrLength = arr.length; i < arrLength; i++) {
+            for (int j = 0, jarrLength = arr[i].length; j < jarrLength; j++) {
+                Object o = arr[i][j];
+                if (o instanceof String) arrayString.append("\"").append((String) o).append("\"");
+                else if (o instanceof Character) arrayString.append("'").append((char) o).append("'");
+                else if (o instanceof ItemStack) arrayString.append(convertStack((ItemStack) o));
+                else if (o instanceof IItemStack || o instanceof IngredientItem)
+                    arrayString.append(convertStack((IIngredient) o));
+                else if (o instanceof IOreDictEntry)
+                    arrayString.append("\"").append((String) ((IOreDictEntry) o).getInternal()).append("\"");
+                else if (o instanceof IngredientOreDict)
+                    arrayString.append("\"").append((String) ((IngredientOreDict) o).getInternal()).append("\"");
+                else if (o == null) arrayString.append("null");
+                else arrayString.append(o);
+                if (i + 1 < arrLength || j + 1 < jarrLength) arrayString.append(", ");
+            }
+        }
+        return arrayString.toString();
+    }
+
+    public static void logGTRecipe(ItemStack[] itemInputs, ItemStack[] itemOutputs, int[] chances,
+            FluidStack[] fluidInputs, FluidStack[] fluidOutputs, int duration, int eut, Integer specialValue,
+            String recipeMapVariable) {
+        StringBuilder builder = new StringBuilder("GT_Values.RA.stdBuilder()");
+        Function<ItemStack[], ItemStack[]> isAllObjectsNullItemStack = arr -> {
+            if (arr == null || arr.length == 0 || Arrays.stream(arr).allMatch(Objects::isNull)) return null;
+            return Arrays.stream(arr).filter(Objects::nonNull).toArray(ItemStack[]::new);
+        };
+        Function<FluidStack[], FluidStack[]> isAllObjectsNullFluidStack = arr -> {
+            if (arr == null || arr.length == 0 || Arrays.stream(arr).allMatch(Objects::isNull)) return null;
+            return Arrays.stream(arr).filter(Objects::nonNull).toArray(FluidStack[]::new);
+        };
+        itemInputs = isAllObjectsNullItemStack.apply(itemInputs);
+        itemOutputs = isAllObjectsNullItemStack.apply(itemOutputs);
+        fluidInputs = isAllObjectsNullFluidStack.apply(fluidInputs);
+        fluidOutputs = isAllObjectsNullFluidStack.apply(fluidOutputs);
+        if (itemInputs == null || itemInputs.length == 0) builder.append(".noItemInputs()");
+        else builder.append(".itemInputs(").append(convertArrayInLine(itemInputs)).append(")");
+        if (itemOutputs == null || itemOutputs.length == 0) builder.append(".noItemOutputs()");
+        else builder.append(".itemOutputs(").append(convertArrayInLine(itemOutputs)).append(")");
+        if (chances != null && chances.length > 0) builder.append(".outputChances(")
+                .append(convertArrayInLine(Arrays.stream(chances).boxed().toArray(Integer[]::new))).append(")");
+        if (fluidInputs == null || fluidInputs.length == 0) builder.append(".noFluidInputs()");
+        else builder.append(".fluidInputs(").append(convertArrayInLine(fluidInputs)).append(")");
+        if (fluidOutputs == null || fluidOutputs.length == 0) builder.append(".noFluidOutputs()");
+        else builder.append(".fluidOutputs(").append(convertArrayInLine(fluidOutputs)).append(")");
+        builder.append(".duration(").append(duration).append(")");
+        builder.append(".eut(").append(eut).append(")");
+        if (specialValue != null) builder.append(".specialValue(").append(specialValue.intValue()).append(")");
+        builder.append(".addTo(").append(recipeMapVariable).append(");");
+
+        info(builder.toString());
+    }
+
+    public static void logGTRecipe(ItemStack[] itemInputs, ItemStack[] itemOutputs, FluidStack[] fluidInputs,
+            FluidStack[] fluidOutputs, int duration, int eut, String recipeMapVariable) {
+        logGTRecipe(itemInputs, itemOutputs, null, fluidInputs, fluidOutputs, duration, eut, null, recipeMapVariable);
+    }
+
+    public static void logGTRecipe(ItemStack[] itemInputs, ItemStack[] itemOutputs, int[] chances,
+            FluidStack[] fluidInputs, FluidStack[] fluidOutputs, int duration, int eut, String recipeMapVariable) {
+        logGTRecipe(
+                itemInputs,
+                itemOutputs,
+                chances,
+                fluidInputs,
+                fluidOutputs,
+                duration,
+                eut,
+                null,
+                recipeMapVariable);
+    }
+
+    public static void logGTRecipe(ItemStack[] itemInputs, ItemStack[] itemOutputs, FluidStack[] fluidInputs,
+            FluidStack[] fluidOutputs, int duration, int eut, int specialValue, String recipeMapVariable) {
+        logGTRecipe(
+                itemInputs,
+                itemOutputs,
+                null,
+                fluidInputs,
+                fluidOutputs,
+                duration,
+                eut,
+                specialValue,
+                recipeMapVariable);
+    }
 
     public static final String[] COLOR_NAMES = { "White", "Orange", "Magenta", "Light Blue", "Yellow", "Lime", "Pink",
             "Gray", "Light Gray", "Cyan", "Purple", "Blue", "Brown", "Green", "Red", "Black" };
@@ -85,7 +253,7 @@ public class MineTweakerAPI {
     /**
      * The logger can be used to write logging messages to the client. Error and warning messages should be relayed to
      * admins for further handling.
-     * 
+     *
      * @return
      */
     public static final ILogger getLogger() {
@@ -149,7 +317,7 @@ public class MineTweakerAPI {
 
     /**
      * Applies this given action.
-     * 
+     *
      * @param action action object
      */
     public static void apply(IUndoableAction action) {
@@ -158,7 +326,7 @@ public class MineTweakerAPI {
 
     /**
      * Logs a command message. Commands messages are those generated as output in response to a command.
-     * 
+     *
      * @param message command message
      */
     public static void logCommand(String message) {
@@ -168,7 +336,7 @@ public class MineTweakerAPI {
     /**
      * Logs an info message. Info messages have low priority and will only be displayed in the log files, but not
      * directly to players in-game.
-     * 
+     *
      * @param message info message
      */
     public static void logInfo(String message) {
@@ -179,7 +347,7 @@ public class MineTweakerAPI {
      * Logs a warning message. Warning messages are displayed to admins and indicate that there is an issue. However,
      * the issue is not a large problem, and everything should run fine - besides perhaps a few things not entirely
      * working as expected.
-     * 
+     *
      * @param message warning message
      */
     public static void logWarning(String message) {
@@ -190,7 +358,7 @@ public class MineTweakerAPI {
      * Logs an error message. Error messages indicate a real problem and indicate that things won't run properly. The
      * scripting system will still make a best-effort attempt at executing the rest of the scripts, but that might cause
      * additional errors and issues.
-     * 
+     *
      * @param message error message
      */
     public static void logError(String message) {
@@ -201,7 +369,7 @@ public class MineTweakerAPI {
      * Logs an error message. Error messages indicate a real problem and indicate that things won't run properly. The
      * scripting system will still make a best-effort attempt at executing the rest of the scripts, but that might cause
      * additional errors and issues.
-     * 
+     *
      * @param message   error message
      * @param exception exception that was caught related to the error
      */
@@ -216,7 +384,7 @@ public class MineTweakerAPI {
     /**
      * Register a class registry class. Such class must have (at least) a public static method called "getClasses" with
      * accepts a List of classes and which stores its classes into that list.
-     * 
+     *
      * @param registryClass
      */
     public static void registerClassRegistry(Class registryClass) {
@@ -226,7 +394,7 @@ public class MineTweakerAPI {
     /**
      * Register a class registry class. Such class must have (at least) a public static method called "getClasses" with
      * accepts a List of classes and which stores its classes into that list.
-     * 
+     *
      * @param registryClass
      * @param description
      */
@@ -270,7 +438,7 @@ public class MineTweakerAPI {
     /**
      * Registers a class registry. Will attempt to resolve the given class name. Does nothing if the class could not be
      * loaded.
-     * 
+     *
      * @param className class name to be loaded
      * @return true if registration was successful
      */
@@ -281,7 +449,7 @@ public class MineTweakerAPI {
     /**
      * Registers a class registry. Will attempt to resolve the given class name. Does nothing if the class could not be
      * loaded.
-     * 
+     *
      * @param className   class name to be loaded
      * @param description
      * @return true if registration was successful
@@ -298,7 +466,7 @@ public class MineTweakerAPI {
     /**
      * Registers an annotated class. A class is annotated with either @ZenClass or @ZenExpansion. Classes not annotated
      * with either of these will be ignored.
-     * 
+     *
      * @param annotatedClass
      */
     public static void registerClass(Class annotatedClass) {
@@ -327,7 +495,7 @@ public class MineTweakerAPI {
 
     /**
      * Registers a global symbol. Global symbols are immediately accessible from anywhere in the scripts.
-     * 
+     *
      * @param name   symbol name
      * @param symbol symbol
      */
@@ -337,7 +505,7 @@ public class MineTweakerAPI {
 
     /**
      * Registers a recipe remover. Removers are called when the global minetweaker.remove() function is called.
-     * 
+     *
      * @param remover recipe remover
      */
     public static void registerRemover(IRecipeRemover remover) {
@@ -347,7 +515,7 @@ public class MineTweakerAPI {
     /**
      * Registers a bracket handler. Is capable of converting the bracket syntax to an actual value. This new handler
      * will be added last - it can thus not intercept values that are already handled by the system.
-     * 
+     *
      * @param handler bracket handler to be added
      */
     public static void registerBracketHandler(IBracketHandler handler) {
@@ -356,7 +524,7 @@ public class MineTweakerAPI {
 
     /**
      * Creates a symbol that refers to a java method.
-     * 
+     *
      * @param cls       class that contains the method
      * @param name      method name
      * @param arguments method argument types
@@ -370,7 +538,7 @@ public class MineTweakerAPI {
     /**
      * Creates a symbol that refers to a java getter. The getter must be a method with no arguments. The given symbol
      * will act as a variable of which the value can be retrieved but not set.
-     * 
+     *
      * @param cls  class that contains the getter method
      * @param name name of the method
      * @return corresponding symbol
@@ -383,7 +551,7 @@ public class MineTweakerAPI {
     /**
      * Creates a symbol that refers to a static field. The field must be an existing public field in the given class.
      * The field will act as a variable that can be retrieved but not set.
-     * 
+     *
      * @param cls  class that contains the field
      * @param name field name (must be public)
      * @return corresponding symbol
@@ -401,7 +569,7 @@ public class MineTweakerAPI {
 
     /**
      * Loads a Java method from an existing class.
-     * 
+     *
      * @param cls       method class
      * @param name      method name
      * @param arguments argument types

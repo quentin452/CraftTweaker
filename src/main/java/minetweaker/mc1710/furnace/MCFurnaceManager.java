@@ -112,6 +112,7 @@ public class MCFurnaceManager implements IFurnaceManager {
         public void apply() {
             for (ItemStack item : items) {
                 FurnaceRecipes.smelting().getSmeltingList().remove(item);
+                MineTweakerAPI.info("GT_ModHandler.removeFurnaceSmelting(" + MineTweakerAPI.convertStack(item) + ");");
             }
         }
 
@@ -161,6 +162,11 @@ public class MCFurnaceManager implements IFurnaceManager {
         public void apply() {
             for (ItemStack inputStack : input) {
                 FurnaceRecipes.smelting().func_151394_a(inputStack, output, (float) xp);
+                MineTweakerAPI.info(
+                        "GT_ModHandler.addSmeltingRecipe(" + MineTweakerAPI.convertStack(inputStack)
+                                + ", "
+                                + MineTweakerAPI.convertStack(output)
+                                + ");");
             }
         }
 
@@ -203,6 +209,11 @@ public class MCFurnaceManager implements IFurnaceManager {
         @Override
         public void apply() {
             FuelTweaker.INSTANCE.addFuelPattern(pattern);
+            MineTweakerAPI.info(
+                    "GT_ModHandler.setFuelValue(" + MineTweakerAPI.convertStack(pattern.getPattern())
+                            + ", "
+                            + pattern.getValue()
+                            + ");");
         }
 
         @Override

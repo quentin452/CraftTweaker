@@ -16,11 +16,11 @@ import stanhebben.zenscript.annotations.ZenMethod;
 
 /**
  * MineTweaker NEI support.
- * 
+ *
  * Enables hiding NEI items as well as adding new item stacks. These item stacks can then show a custom message or
  * contain NBT data. Can be used to show a custom message or lore with certain items, or to provide spawnable items with
  * specific NBT tags.
- * 
+ *
  * @author Stan Hebben
  */
 @ZenClass("mods.nei.NEI")
@@ -29,7 +29,7 @@ public class NEI {
 
     /**
      * Hides a specific item in NEI. Will take into account metadata values, if any.
-     * 
+     *
      * @param item item to be hidden
      */
     @ZenMethod
@@ -39,7 +39,7 @@ public class NEI {
 
     /**
      * Adds a NEI entry. The item stack can contain damage values and NBT tags.
-     * 
+     *
      * @param stack item stack to be added
      */
     @ZenMethod
@@ -50,7 +50,7 @@ public class NEI {
     /**
      * Overrides a name in NEI. Note that this will not change the original display name, but it will change the way it
      * is displayed in NEI.
-     * 
+     *
      * @param item item
      * @param name item name
      */
@@ -74,6 +74,7 @@ public class NEI {
         @Override
         public void apply() {
             API.addItemListEntry(item);
+            MineTweakerAPI.info("API.addItemListEntry(" + MineTweakerAPI.convertStack(item) + ");");
         }
 
         @Override
@@ -113,6 +114,7 @@ public class NEI {
         @Override
         public void apply() {
             API.hideItem(stack);
+            MineTweakerAPI.info("API.hideItem(" + MineTweakerAPI.convertStack(stack) + ");");
         }
 
         @Override
@@ -154,6 +156,7 @@ public class NEI {
         @Override
         public void apply() {
             API.setOverrideName(item, name);
+            MineTweakerAPI.info("API.setOverrideName(" + MineTweakerAPI.convertStack(item) + ", \"" + name + "\");");
         }
 
         @Override

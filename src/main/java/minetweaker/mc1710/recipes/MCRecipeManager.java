@@ -316,6 +316,15 @@ public final class MCRecipeManager implements IRecipeManager {
             toRemove = find();
 
             removeRecipes(toRemove);
+
+            for (Pair<IIngredient, Boolean> output : outputs) {
+                MineTweakerAPI.info(
+                        "GT_ModHandler.removeRecipeByOutputDelayed(" + MineTweakerAPI.convertStack(output.getKey())
+                                + ", "
+                                + (output.getValue() ? "false" : "true")
+                                + ", false, true);");
+            }
+
         }
 
         @Override
@@ -440,6 +449,14 @@ public final class MCRecipeManager implements IRecipeManager {
             toRemove = find();
             MineTweakerAPI.logInfo("Removing " + toRemove.size() + " Shapeless recipes.");
             super.removeRecipes(toRemove);
+
+            if (ingredients == null || ingredients.length == 0)
+                MineTweakerAPI.info("removeRecipeShapeless(" + MineTweakerAPI.convertStack(output) + ");");
+            else MineTweakerAPI.info(
+                    "removeRecipeShapeless(" + MineTweakerAPI.convertStack(output)
+                            + ", "
+                            + MineTweakerAPI.convertArrayInLine(ingredients)
+                            + ");");
         }
 
         @Override
@@ -554,6 +571,14 @@ public final class MCRecipeManager implements IRecipeManager {
 
             MineTweakerAPI.logInfo(toRemove.size() + " removed");
             super.removeRecipes(toRemove);
+
+            if (ingredients == null || ingredients.length == 0)
+                MineTweakerAPI.info("removeRecipeShaped(" + MineTweakerAPI.convertStack(output) + ");");
+            else MineTweakerAPI.info(
+                    "removeRecipeShaped(" + MineTweakerAPI.convertStack(output)
+                            + ", "
+                            + MineTweakerAPI.convertArrayInLine(ingredients)
+                            + ");");
         }
 
         @Override
@@ -658,17 +683,50 @@ public final class MCRecipeManager implements IRecipeManager {
 
     private static class ActionAddShapedRecipe extends ActionBaseAddRecipe {
 
+        IItemStack aOutput;
+        IIngredient[][] aIngredients;
+        boolean aMirrored;
+
         public ActionAddShapedRecipe(IItemStack output, IIngredient[][] ingredients, IRecipeFunction function,
                 IRecipeAction action, boolean mirrored) {
             super(new ShapedRecipe(output, ingredients, function, action, mirrored), output, true);
+            aOutput = output;
+            aIngredients = ingredients;
+            aMirrored = mirrored;
+        }
+
+        @Override
+        public void apply() {
+            super.apply();
+            MineTweakerAPI.info(
+                    "addShapedRecipe(" + MineTweakerAPI.convertStack(aOutput)
+                            + ", new Object[] {"
+                            + MineTweakerAPI.convert2DArrayInLine(aIngredients)
+                            + "});");
         }
     }
 
     private static class ActionAddShapelessRecipe extends ActionBaseAddRecipe {
 
+        IItemStack aOutput;
+        IIngredient[] aIngredients;
+
         public ActionAddShapelessRecipe(IItemStack output, IIngredient[] ingredients, IRecipeFunction function,
                 IRecipeAction action) {
             super(new ShapelessRecipe(output, ingredients, function, action), output, false);
+            aOutput = output;
+            aIngredients = ingredients;
+        }
+
+        @Override
+        public void apply() {
+            super.apply();
+
+            MineTweakerAPI.info(
+                    "addShapelessCraftingRecipe(" + MineTweakerAPI.convertStack(aOutput)
+                            + ", new Object[] { "
+                            + MineTweakerAPI.convertArrayInLine(aIngredients)
+                            + " });");
         }
     }
 

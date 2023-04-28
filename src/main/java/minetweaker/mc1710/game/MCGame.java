@@ -182,7 +182,7 @@ public class MCGame implements IGame {
 
     /**
      * Ported from ModTweaker.
-     * 
+     *
      * @author Joshiejack
      */
     private static class SetTranslation implements IUndoableAction {
@@ -208,6 +208,7 @@ public class MCGame implements IGame {
             } else {
                 added = false;
             }
+            MineTweakerAPI.info(key + "=" + text);
         }
 
         @Override

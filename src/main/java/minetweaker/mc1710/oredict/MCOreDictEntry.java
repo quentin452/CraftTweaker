@@ -271,6 +271,11 @@ public class MCOreDictEntry implements IOreDictEntry {
         @Override
         public void apply() {
             OreDictionary.registerOre(id, item);
+            MineTweakerAPI.info(
+                    "OreDictionary.registerOre(\"" + OreDictionary.getOreName(id)
+                            + "\", "
+                            + MineTweakerAPI.convertStack(item)
+                            + ");");
         }
 
         @Override

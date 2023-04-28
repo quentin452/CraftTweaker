@@ -4,6 +4,8 @@ import static minetweaker.api.minecraft.MineTweakerMC.getIItemStack;
 import static minetweaker.api.minecraft.MineTweakerMC.getItemStack;
 import static minetweaker.api.minecraft.MineTweakerMC.getItemStacks;
 
+import net.minecraft.item.ItemStack;
+
 import ic2.api.recipe.RecipeOutput;
 import ic2.api.recipe.Recipes;
 import minetweaker.MineTweakerAPI;
@@ -18,7 +20,7 @@ import stanhebben.zenscript.annotations.ZenMethod;
 
 /**
  * Provides access to the IC2 compressor recipes. Recipes can be added but not removed, due to IC2 API restrictions.
- * 
+ *
  * @author Stan Hebben
  */
 @ZenClass("mods.ic2.Compressor")
@@ -27,9 +29,9 @@ public class Compressor {
 
     /**
      * Adds a new recipe to the compressor.
-     * 
+     *
      * The recipe input can be any pattern, as long as the stack size is determined. The output can be any item stack.
-     * 
+     *
      * @param output     recipe output
      * @param ingredient recipe input
      */
@@ -44,14 +46,29 @@ public class Compressor {
                             Recipes.compressor,
                             getItemStacks(output),
                             null,
-                            new IC2RecipeInput(ingredient)));
+                            new IC2RecipeInput(ingredient)) {
+
+                        @Override
+                        public void apply() {
+                            super.apply();
+
+                            MineTweakerAPI.logGTRecipe(
+                                    new ItemStack[] { new IC2RecipeInput(ingredient).getInputs().get(0) },
+                                    new ItemStack[] { getItemStack(output) },
+                                    null,
+                                    null,
+                                    300,
+                                    2,
+                                    "sCompressorRecipes");
+                        }
+                    });
         }
     }
 
     /**
      * Determines the recipe output for the given input. Will return the output of a single item, even if the stack
      * contains multiple items.
-     * 
+     *
      * @param input recipe input
      * @return recipe output
      */
