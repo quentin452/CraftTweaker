@@ -318,7 +318,9 @@ public final class MCRecipeManager implements IRecipeManager {
             removeRecipes(toRemove);
 
             for (Pair<IIngredient, Boolean> output : outputs) {
-                MineTweakerAPI.info(
+                if (output.getKey().getInternal() instanceof String) MineTweakerAPI
+                        .info("removeRecipeByOreOutputDelayed(\"" + ((String) output.getKey().getInternal()) + "\")");
+                else MineTweakerAPI.info(
                         "GT_ModHandler.removeRecipeByOutputDelayed(" + MineTweakerAPI.convertStack(output.getKey())
                                 + ", "
                                 + (output.getValue() ? "false" : "true")
@@ -451,9 +453,9 @@ public final class MCRecipeManager implements IRecipeManager {
             super.removeRecipes(toRemove);
 
             if (ingredients == null || ingredients.length == 0)
-                MineTweakerAPI.info("removeRecipeShapeless(" + MineTweakerAPI.convertStack(output) + ");");
+                MineTweakerAPI.info("removeRecipeShapeless(" + MineTweakerAPI.convertStackOrOre(output) + ");");
             else MineTweakerAPI.info(
-                    "removeRecipeShapeless(" + MineTweakerAPI.convertStack(output)
+                    "removeRecipeShapeless(" + MineTweakerAPI.convertStackOrOre(output)
                             + ", "
                             + MineTweakerAPI.convertArrayInLine(ingredients)
                             + ");");
@@ -573,9 +575,9 @@ public final class MCRecipeManager implements IRecipeManager {
             super.removeRecipes(toRemove);
 
             if (ingredients == null || ingredients.length == 0)
-                MineTweakerAPI.info("removeRecipeShaped(" + MineTweakerAPI.convertStack(output) + ");");
+                MineTweakerAPI.info("removeRecipeShaped(" + MineTweakerAPI.convertStackOrOre(output) + ");");
             else MineTweakerAPI.info(
-                    "removeRecipeShaped(" + MineTweakerAPI.convertStack(output)
+                    "removeRecipeShaped(" + MineTweakerAPI.convertStackOrOre(output)
                             + ", "
                             + MineTweakerAPI.convertArrayInLine(ingredients)
                             + ");");

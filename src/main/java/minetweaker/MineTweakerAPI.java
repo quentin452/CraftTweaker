@@ -109,6 +109,13 @@ public class MineTweakerAPI {
         else return "ERRORSTACK";
     }
 
+    public static String convertStackOrOre(IIngredient ingredient) {
+        Object internal = ingredient.getInternal();
+        if (internal instanceof ItemStack) return convertStack((ItemStack) internal);
+        else if (internal instanceof String) return (String) internal;
+        else return "ERRORSTACK";
+    }
+
     public static String convertArrayInLine(Object[] arr) {
         StringBuilder arrayString = new StringBuilder();
         for (int i = 0, arrLength = arr.length; i < arrLength; i++) {
