@@ -112,7 +112,7 @@ public class MineTweakerAPI {
     public static String convertStackOrOre(IIngredient ingredient) {
         Object internal = ingredient.getInternal();
         if (internal instanceof ItemStack) return convertStack((ItemStack) internal);
-        else if (internal instanceof String) return (String) internal;
+        else if (internal instanceof String) return "\"" + (String) internal + "\"";
         else return "ERRORSTACK";
     }
 
