@@ -777,7 +777,7 @@ public final class MCRecipeManager implements IRecipeManager {
             recipes.removeIf(recipesToUndo::contains);
         }
         int commonPoolParallelism = getCommonPoolParallelism();
-        if (commonPoolParallelism <= 1) {
+        if (true) {
             // if thread == 1, then we have parallel overhead but doesn't have parallel speedup.
             // never do this
             recipesToRemove.forEach(ActionBaseRemoveRecipes::apply);
