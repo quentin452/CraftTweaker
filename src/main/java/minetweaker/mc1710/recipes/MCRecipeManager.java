@@ -578,8 +578,15 @@ public final class MCRecipeManager implements IRecipeManager {
                 MineTweakerAPI.info("removeRecipeShaped(" + MineTweakerAPI.convertStackOrOre(output) + ");");
             else MineTweakerAPI.info(
                     "removeRecipeShaped(" + MineTweakerAPI.convertStackOrOre(output)
-                            + ", "
-                            + MineTweakerAPI.convertArrayInLine(ingredients)
+                            + ", new Object[]{"
+                            + MineTweakerAPI.convertArrayInLine(ingredients[0])
+                            + "}"
+                            + (ingredients.length >= 2
+                                    ? (", new Object[]{" + MineTweakerAPI.convertArrayInLine(ingredients[1]) + "}")
+                                    : ", new Object[0]")
+                            + (ingredients.length >= 3
+                                    ? (", new Object[]{" + MineTweakerAPI.convertArrayInLine(ingredients[2]) + "}")
+                                    : ", new Object[0]")
                             + ");");
         }
 
